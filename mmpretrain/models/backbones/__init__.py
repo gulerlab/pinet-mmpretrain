@@ -60,6 +60,8 @@ from .vit_sam import ViTSAM
 from .xcit import XCiT
 from .pinet.pinet_resnet import PiNetResNet, PiNetResNetV1c, PiNetResNetV1d
 from .pinet.pinet_resnet_cifar import PiNetResNet_CIFAR
+from .pinet.pinet_resnet_wout_bn import PiNetResNetWoutBN, PiNetResNetV1cWoutBN, PiNetResNetV1dWoutBN
+from .pinet.pinet_resnet_cifar_wout_bn import PiNetResNet_CIFARWoutBN
 
 
 __all__ = [
@@ -132,5 +134,9 @@ __all__ = [
     'PiNetResNet',
     'PiNetResNetV1c',
     'PiNetResNetV1d',
-    'PiNetResNet_CIFAR'
+    'PiNetResNet_CIFAR',
+    'PiNetResNetWoutBN',
+    'PiNetResNetV1cWoutBN',
+    'PiNetResNetV1dWoutBN',
+    'PiNetResNet_CIFARWoutBN'
 ]
