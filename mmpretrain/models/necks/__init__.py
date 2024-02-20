@@ -2,7 +2,7 @@
 from .beitv2_neck import BEiTV2Neck
 from .cae_neck import CAENeck
 from .densecl_neck import DenseCLNeck
-from .gap import GlobalAveragePooling
+from .gap import GlobalAveragePooling, GlobalAveragePoolingConv2d
 from .gem import GeneralizedMeanPooling
 from .hr_fuse import HRFuseScales
 from .itpn_neck import iTPNPretrainDecoder
@@ -19,6 +19,7 @@ from .pinet.pinet_linear_neck import PiNetLinearNeck
 
 __all__ = [
     'GlobalAveragePooling',
+    'GlobalAveragePoolingConv2d',
     'GeneralizedMeanPooling',
     'HRFuseScales',
     'LinearNeck',

@@ -21,7 +21,7 @@ class GlobalAveragePooling(nn.Module):
     def __init__(self, dim=2):
         super(GlobalAveragePooling, self).__init__()
         assert dim in [1, 2, 3], 'GlobalAveragePooling dim only support ' \
-            f'{1, 2, 3}, get {dim} instead.'
+                                 f'{1, 2, 3}, get {dim} instead.'
         if dim == 1:
             self.gap = nn.AdaptiveAvgPool1d(1)
         elif dim == 2:
@@ -40,6 +40,29 @@ class GlobalAveragePooling(nn.Module):
         elif isinstance(inputs, torch.Tensor):
             outs = self.gap(inputs)
             outs = outs.view(inputs.size(0), -1)
+        else:
+            raise TypeError('neck inputs should be tuple or torch.tensor')
+        return outs
+
+
+@MODELS.register_module()
+class GlobalAveragePoolingConv2d(nn.Module):
+    def __init__(self):
+        super(GlobalAveragePoolingConv2d, self).__init__()
+
+    def forward(self, inputs):
+        if isinstance(inputs, tuple):
+            outs = []
+            for x in inputs:
+                tmp = x.view(x.shape[0], x.shape[1], -1)
+                tmp = (tmp @ torch.ones(tmp.shape[-1], device=tmp.device)) / tmp.shape[-1]
+                outs.append(tmp.view(tmp.shape[0], -1))
+            outs = tuple(outs)
+        elif isinstance(inputs, torch.Tensor):
+            tmp = inputs.view(inputs.shape[0], inputs.shape[1], -1)
+            tmp = (tmp @ torch.ones(tmp.shape[-1], device=tmp.device)) / tmp.shape[-1]
+            outs = tmp.view(tmp.shape[0], -1)
+            outs = tuple([outs])
         else:
             raise TypeError('neck inputs should be tuple or torch.tensor')
         return outs

@@ -1,0 +1,752 @@
+2024/02/19 19:09:19 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.8.18 (default, Sep 11 2023, 13:40:15) [GCC 11.2.0]
+    CUDA available: True
+    MUSA available: False
+    numpy_random_seed: 388946620
+    GPU 0: NVIDIA RTX A4000
+    CUDA_HOME: /usr
+    NVCC: Cuda compilation tools, release 12.2, V12.2.140
+    GCC: gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
+    PyTorch: 1.10.1
+    PyTorch compiling details: PyTorch built with:
+  - GCC 7.3
+  - C++ Version: 201402
+  - Intel(R) oneAPI Math Kernel Library Version 2023.1-Product Build 20230303 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.2.3 (Git Hash 7336ca9f055cf1bfa13efb658fe15dc9b41f0740)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.3
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_37,code=compute_37
+  - CuDNN 8.2
+  - Magma 2.5.2
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.3, CUDNN_VERSION=8.2.0, CXX_COMPILER=/opt/rh/devtoolset-7/root/usr/bin/c++, CXX_FLAGS= -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_KINETO -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.10.1, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, 
+
+    TorchVision: 0.11.2
+    OpenCV: 4.9.0
+    MMEngine: 0.10.3
+
+Runtime environment:
+    cudnn_benchmark: False
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    dist_cfg: {'backend': 'nccl'}
+    seed: 388946620
+    deterministic: False
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+2024/02/19 19:09:19 - mmengine - INFO - Config:
+auto_scale_lr = dict(base_batch_size=128)
+data_preprocessor = dict(
+    mean=[
+        125.307,
+        122.961,
+        113.8575,
+    ],
+    num_classes=10,
+    std=[
+        51.5865,
+        50.847,
+        51.255,
+    ],
+    to_rgb=False)
+dataset_type = 'CIFAR10'
+default_hooks = dict(
+    checkpoint=dict(interval=1, type='CheckpointHook'),
+    logger=dict(interval=100, type='LoggerHook'),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    timer=dict(type='IterTimerHook'),
+    visualization=dict(enable=False, type='VisualizationHook'))
+default_scope = 'mmpretrain'
+env_cfg = dict(
+    cudnn_benchmark=False,
+    dist_cfg=dict(backend='nccl'),
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0))
+launcher = 'none'
+load_from = None
+log_level = 'INFO'
+model = dict(
+    backbone=dict(type='PiNetShallow_CIFAR'),
+    head=dict(
+        in_channels=256,
+        loss=dict(loss_weight=1.0, type='CrossEntropyLoss'),
+        num_classes=10,
+        type='LinearClsHead'),
+    neck=dict(type='GlobalAveragePoolingConv2d'),
+    type='ImageClassifier')
+optim_wrapper = dict(optimizer=dict(lr=1e-05, type='SGD'))
+param_scheduler = dict(
+    by_epoch=True, gamma=0.1, milestones=[
+        500,
+    ], type='MultiStepLR')
+randomness = dict(deterministic=False, seed=None)
+resume = False
+test_cfg = dict()
+test_dataloader = dict(
+    batch_size=16,
+    collate_fn=dict(type='default_collate'),
+    dataset=dict(
+        data_root='data/cifar10/',
+        pipeline=[
+            dict(type='PackInputs'),
+        ],
+        split='test',
+        type='CIFAR10'),
+    num_workers=2,
+    persistent_workers=True,
+    pin_memory=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+test_evaluator = dict(topk=(1, ), type='Accuracy')
+test_pipeline = [
+    dict(type='PackInputs'),
+]
+train_cfg = dict(by_epoch=True, max_epochs=1000, val_interval=1)
+train_dataloader = dict(
+    batch_size=16,
+    collate_fn=dict(type='default_collate'),
+    dataset=dict(
+        data_root='data/cifar10',
+        pipeline=[
+            dict(crop_size=32, padding=4, type='RandomCrop'),
+            dict(direction='horizontal', prob=0.5, type='RandomFlip'),
+            dict(type='PackInputs'),
+        ],
+        split='train',
+        type='CIFAR10'),
+    num_workers=2,
+    persistent_workers=True,
+    pin_memory=True,
+    sampler=dict(shuffle=True, type='DefaultSampler'))
+train_pipeline = [
+    dict(crop_size=32, padding=4, type='RandomCrop'),
+    dict(direction='horizontal', prob=0.5, type='RandomFlip'),
+    dict(type='PackInputs'),
+]
+val_cfg = dict()
+val_dataloader = dict(
+    batch_size=16,
+    collate_fn=dict(type='default_collate'),
+    dataset=dict(
+        data_root='data/cifar10/',
+        pipeline=[
+            dict(type='PackInputs'),
+        ],
+        split='test',
+        type='CIFAR10'),
+    num_workers=2,
+    persistent_workers=True,
+    pin_memory=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+val_evaluator = dict(topk=(1, ), type='Accuracy')
+vis_backends = [
+    dict(type='LocalVisBackend'),
+]
+visualizer = dict(
+    type='UniversalVisualizer', vis_backends=[
+        dict(type='LocalVisBackend'),
+    ])
+work_dir = './work_dirs/pinet_shallow_cifar10_v2'
+
+2024/02/19 19:09:23 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+2024/02/19 19:09:23 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) VisualizationHook                  
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) VisualizationHook                  
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+Name of parameter - Initialization information
+
+backbone.piconv_1.conv_01.weight - torch.Size([32, 3, 3, 3]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.piconv_1.conv_02.weight - torch.Size([32, 3, 3, 3]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.piconv_2.conv_01.weight - torch.Size([64, 32, 3, 3]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.piconv_2.conv_02.weight - torch.Size([64, 32, 3, 3]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.piconv_3.conv_01.weight - torch.Size([128, 64, 4, 4]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.piconv_3.conv_02.weight - torch.Size([128, 64, 4, 4]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.piconv_4.conv_01.weight - torch.Size([256, 128, 4, 4]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.piconv_4.conv_02.weight - torch.Size([256, 128, 4, 4]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+head.fc.weight - torch.Size([10, 256]): 
+NormalInit: mean=0, std=0.01, bias=0 
+
+head.fc.bias - torch.Size([10]): 
+NormalInit: mean=0, std=0.01, bias=0 
+2024/02/19 19:09:26 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+2024/02/19 19:09:26 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+2024/02/19 19:09:26 - mmengine - INFO - Checkpoints will be saved to /home/umityigitbsrn/Desktop/umityigitbsrn/pinet-mmpretrain/work_dirs/pinet_shallow_cifar10_v2.
+2024/02/19 19:09:28 - mmengine - INFO - Epoch(train)    [1][ 100/3125]  lr: 1.0000e-05  eta: 17:33:23  time: 0.0052  data_time: 0.0003  memory: 54  loss: 2.3015
+2024/02/19 19:09:28 - mmengine - INFO - Epoch(train)    [1][ 200/3125]  lr: 1.0000e-05  eta: 10:59:55  time: 0.0047  data_time: 0.0002  memory: 54  loss: 2.3008
+2024/02/19 19:09:29 - mmengine - INFO - Epoch(train)    [1][ 300/3125]  lr: 1.0000e-05  eta: 8:46:51  time: 0.0049  data_time: 0.0002  memory: 54  loss: 2.3022
+2024/02/19 19:09:29 - mmengine - INFO - Epoch(train)    [1][ 400/3125]  lr: 1.0000e-05  eta: 7:41:50  time: 0.0050  data_time: 0.0003  memory: 54  loss: 2.3048
+2024/02/19 19:09:30 - mmengine - INFO - Epoch(train)    [1][ 500/3125]  lr: 1.0000e-05  eta: 6:56:22  time: 0.0037  data_time: 0.0003  memory: 54  loss: 2.3035
+2024/02/19 19:09:30 - mmengine - INFO - Epoch(train)    [1][ 600/3125]  lr: 1.0000e-05  eta: 6:26:01  time: 0.0045  data_time: 0.0002  memory: 54  loss: 2.3011
+2024/02/19 19:09:31 - mmengine - INFO - Epoch(train)    [1][ 700/3125]  lr: 1.0000e-05  eta: 6:05:11  time: 0.0046  data_time: 0.0002  memory: 54  loss: 2.3023
+2024/02/19 19:09:31 - mmengine - INFO - Epoch(train)    [1][ 800/3125]  lr: 1.0000e-05  eta: 5:49:34  time: 0.0046  data_time: 0.0002  memory: 54  loss: 2.3033
+2024/02/19 19:09:32 - mmengine - INFO - Epoch(train)    [1][ 900/3125]  lr: 1.0000e-05  eta: 5:37:33  time: 0.0047  data_time: 0.0002  memory: 54  loss: 2.2994
+2024/02/19 19:09:32 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:09:32 - mmengine - INFO - Epoch(train)    [1][1000/3125]  lr: 1.0000e-05  eta: 5:28:16  time: 0.0047  data_time: 0.0002  memory: 54  loss: 2.3027
+2024/02/19 19:09:33 - mmengine - INFO - Epoch(train)    [1][1100/3125]  lr: 1.0000e-05  eta: 5:20:49  time: 0.0047  data_time: 0.0002  memory: 54  loss: 2.3033
+2024/02/19 19:09:33 - mmengine - INFO - Epoch(train)    [1][1200/3125]  lr: 1.0000e-05  eta: 5:14:35  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.3033
+2024/02/19 19:09:34 - mmengine - INFO - Epoch(train)    [1][1300/3125]  lr: 1.0000e-05  eta: 5:09:20  time: 0.0047  data_time: 0.0002  memory: 54  loss: 2.3018
+2024/02/19 19:09:34 - mmengine - INFO - Epoch(train)    [1][1400/3125]  lr: 1.0000e-05  eta: 5:04:51  time: 0.0046  data_time: 0.0002  memory: 54  loss: 2.3021
+2024/02/19 19:09:35 - mmengine - INFO - Epoch(train)    [1][1500/3125]  lr: 1.0000e-05  eta: 5:01:20  time: 0.0047  data_time: 0.0002  memory: 54  loss: 2.3012
+2024/02/19 19:09:35 - mmengine - INFO - Epoch(train)    [1][1600/3125]  lr: 1.0000e-05  eta: 4:58:30  time: 0.0052  data_time: 0.0002  memory: 54  loss: 2.3030
+2024/02/19 19:09:36 - mmengine - INFO - Epoch(train)    [1][1700/3125]  lr: 1.0000e-05  eta: 4:55:52  time: 0.0047  data_time: 0.0002  memory: 54  loss: 2.3001
+2024/02/19 19:09:36 - mmengine - INFO - Epoch(train)    [1][1800/3125]  lr: 1.0000e-05  eta: 4:53:23  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.3000
+2024/02/19 19:09:36 - mmengine - INFO - Epoch(train)    [1][1900/3125]  lr: 1.0000e-05  eta: 4:51:14  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.3004
+2024/02/19 19:09:37 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:09:37 - mmengine - INFO - Epoch(train)    [1][2000/3125]  lr: 1.0000e-05  eta: 4:49:21  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.3036
+2024/02/19 19:09:37 - mmengine - INFO - Epoch(train)    [1][2100/3125]  lr: 1.0000e-05  eta: 4:47:34  time: 0.0049  data_time: 0.0002  memory: 54  loss: 2.3016
+2024/02/19 19:09:38 - mmengine - INFO - Epoch(train)    [1][2200/3125]  lr: 1.0000e-05  eta: 4:45:53  time: 0.0047  data_time: 0.0002  memory: 54  loss: 2.3038
+2024/02/19 19:09:38 - mmengine - INFO - Epoch(train)    [1][2300/3125]  lr: 1.0000e-05  eta: 4:44:18  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.3006
+2024/02/19 19:09:39 - mmengine - INFO - Epoch(train)    [1][2400/3125]  lr: 1.0000e-05  eta: 4:42:53  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.3008
+2024/02/19 19:09:39 - mmengine - INFO - Epoch(train)    [1][2500/3125]  lr: 1.0000e-05  eta: 4:41:38  time: 0.0046  data_time: 0.0002  memory: 54  loss: 2.3031
+2024/02/19 19:09:40 - mmengine - INFO - Epoch(train)    [1][2600/3125]  lr: 1.0000e-05  eta: 4:40:27  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.3020
+2024/02/19 19:09:40 - mmengine - INFO - Epoch(train)    [1][2700/3125]  lr: 1.0000e-05  eta: 4:39:22  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.2996
+2024/02/19 19:09:41 - mmengine - INFO - Epoch(train)    [1][2800/3125]  lr: 1.0000e-05  eta: 4:38:16  time: 0.0047  data_time: 0.0002  memory: 54  loss: 2.3027
+2024/02/19 19:09:41 - mmengine - INFO - Epoch(train)    [1][2900/3125]  lr: 1.0000e-05  eta: 4:37:14  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.3034
+2024/02/19 19:09:42 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:09:42 - mmengine - INFO - Epoch(train)    [1][3000/3125]  lr: 1.0000e-05  eta: 4:36:14  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.3010
+2024/02/19 19:09:42 - mmengine - INFO - Epoch(train)    [1][3100/3125]  lr: 1.0000e-05  eta: 4:35:24  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.3039
+2024/02/19 19:09:42 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:09:42 - mmengine - INFO - Saving checkpoint at 1 epochs
+2024/02/19 19:09:43 - mmengine - INFO - Epoch(val)    [1][100/625]    eta: 0:00:02  time: 0.0020  data_time: 0.0001  memory: 54  
+2024/02/19 19:09:43 - mmengine - INFO - Epoch(val)    [1][200/625]    eta: 0:00:01  time: 0.0021  data_time: 0.0002  memory: 26  
+2024/02/19 19:09:44 - mmengine - INFO - Epoch(val)    [1][300/625]    eta: 0:00:00  time: 0.0027  data_time: 0.0001  memory: 26  
+2024/02/19 19:09:44 - mmengine - INFO - Epoch(val)    [1][400/625]    eta: 0:00:00  time: 0.0024  data_time: 0.0004  memory: 26  
+2024/02/19 19:09:44 - mmengine - INFO - Epoch(val)    [1][500/625]    eta: 0:00:00  time: 0.0026  data_time: 0.0001  memory: 26  
+2024/02/19 19:09:44 - mmengine - INFO - Epoch(val)    [1][600/625]    eta: 0:00:00  time: 0.0021  data_time: 0.0001  memory: 26  
+2024/02/19 19:09:44 - mmengine - INFO - Epoch(val) [1][625/625]    accuracy/top1: 13.5800  data_time: 0.0006  time: 0.0026
+2024/02/19 19:09:45 - mmengine - INFO - Epoch(train)    [2][ 100/3125]  lr: 1.0000e-05  eta: 4:33:28  time: 0.0036  data_time: 0.0002  memory: 54  loss: 2.3027
+2024/02/19 19:09:45 - mmengine - INFO - Epoch(train)    [2][ 200/3125]  lr: 1.0000e-05  eta: 4:31:44  time: 0.0042  data_time: 0.0001  memory: 54  loss: 2.3009
+2024/02/19 19:09:46 - mmengine - INFO - Epoch(train)    [2][ 300/3125]  lr: 1.0000e-05  eta: 4:30:35  time: 0.0044  data_time: 0.0002  memory: 54  loss: 2.3019
+2024/02/19 19:09:46 - mmengine - INFO - Epoch(train)    [2][ 400/3125]  lr: 1.0000e-05  eta: 4:29:10  time: 0.0041  data_time: 0.0002  memory: 54  loss: 2.2994
+2024/02/19 19:09:47 - mmengine - INFO - Epoch(train)    [2][ 500/3125]  lr: 1.0000e-05  eta: 4:28:06  time: 0.0037  data_time: 0.0002  memory: 54  loss: 2.3035
+2024/02/19 19:09:47 - mmengine - INFO - Epoch(train)    [2][ 600/3125]  lr: 1.0000e-05  eta: 4:27:18  time: 0.0045  data_time: 0.0002  memory: 54  loss: 2.3005
+2024/02/19 19:09:47 - mmengine - INFO - Epoch(train)    [2][ 700/3125]  lr: 1.0000e-05  eta: 4:26:36  time: 0.0045  data_time: 0.0002  memory: 54  loss: 2.3016
+2024/02/19 19:09:48 - mmengine - INFO - Epoch(train)    [2][ 800/3125]  lr: 1.0000e-05  eta: 4:25:56  time: 0.0046  data_time: 0.0002  memory: 54  loss: 2.3022
+2024/02/19 19:09:48 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:09:48 - mmengine - INFO - Epoch(train)    [2][ 900/3125]  lr: 1.0000e-05  eta: 4:25:21  time: 0.0046  data_time: 0.0002  memory: 54  loss: 2.3013
+2024/02/19 19:09:49 - mmengine - INFO - Epoch(train)    [2][1000/3125]  lr: 1.0000e-05  eta: 4:24:52  time: 0.0049  data_time: 0.0002  memory: 54  loss: 2.2999
+2024/02/19 19:09:49 - mmengine - INFO - Epoch(train)    [2][1100/3125]  lr: 1.0000e-05  eta: 4:24:18  time: 0.0045  data_time: 0.0002  memory: 54  loss: 2.2991
+2024/02/19 19:09:50 - mmengine - INFO - Epoch(train)    [2][1200/3125]  lr: 1.0000e-05  eta: 4:23:48  time: 0.0045  data_time: 0.0002  memory: 54  loss: 2.3010
+2024/02/19 19:09:50 - mmengine - INFO - Epoch(train)    [2][1300/3125]  lr: 1.0000e-05  eta: 4:23:14  time: 0.0044  data_time: 0.0002  memory: 54  loss: 2.3030
+2024/02/19 19:09:51 - mmengine - INFO - Epoch(train)    [2][1400/3125]  lr: 1.0000e-05  eta: 4:22:16  time: 0.0051  data_time: 0.0006  memory: 54  loss: 2.2977
+2024/02/19 19:09:51 - mmengine - INFO - Epoch(train)    [2][1500/3125]  lr: 1.0000e-05  eta: 4:21:39  time: 0.0044  data_time: 0.0002  memory: 54  loss: 2.2993
+2024/02/19 19:09:52 - mmengine - INFO - Epoch(train)    [2][1600/3125]  lr: 1.0000e-05  eta: 4:20:59  time: 0.0045  data_time: 0.0002  memory: 54  loss: 2.3018
+2024/02/19 19:09:52 - mmengine - INFO - Epoch(train)    [2][1700/3125]  lr: 1.0000e-05  eta: 4:20:31  time: 0.0043  data_time: 0.0002  memory: 54  loss: 2.3001
+2024/02/19 19:09:53 - mmengine - INFO - Epoch(train)    [2][1800/3125]  lr: 1.0000e-05  eta: 4:19:59  time: 0.0045  data_time: 0.0002  memory: 54  loss: 2.2968
+2024/02/19 19:09:53 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:09:53 - mmengine - INFO - Epoch(train)    [2][1900/3125]  lr: 1.0000e-05  eta: 4:19:35  time: 0.0047  data_time: 0.0002  memory: 54  loss: 2.3002
+2024/02/19 19:09:53 - mmengine - INFO - Epoch(train)    [2][2000/3125]  lr: 1.0000e-05  eta: 4:19:11  time: 0.0047  data_time: 0.0002  memory: 54  loss: 2.2998
+2024/02/19 19:09:54 - mmengine - INFO - Epoch(train)    [2][2100/3125]  lr: 1.0000e-05  eta: 4:18:48  time: 0.0044  data_time: 0.0002  memory: 54  loss: 2.3009
+2024/02/19 19:09:54 - mmengine - INFO - Epoch(train)    [2][2200/3125]  lr: 1.0000e-05  eta: 4:18:28  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.2995
+2024/02/19 19:09:55 - mmengine - INFO - Epoch(train)    [2][2300/3125]  lr: 1.0000e-05  eta: 4:18:06  time: 0.0045  data_time: 0.0002  memory: 54  loss: 2.3018
+2024/02/19 19:09:55 - mmengine - INFO - Epoch(train)    [2][2400/3125]  lr: 1.0000e-05  eta: 4:17:44  time: 0.0046  data_time: 0.0002  memory: 54  loss: 2.3013
+2024/02/19 19:09:56 - mmengine - INFO - Epoch(train)    [2][2500/3125]  lr: 1.0000e-05  eta: 4:17:24  time: 0.0045  data_time: 0.0002  memory: 54  loss: 2.2990
+2024/02/19 19:09:56 - mmengine - INFO - Epoch(train)    [2][2600/3125]  lr: 1.0000e-05  eta: 4:17:04  time: 0.0043  data_time: 0.0002  memory: 54  loss: 2.3027
+2024/02/19 19:09:57 - mmengine - INFO - Epoch(train)    [2][2700/3125]  lr: 1.0000e-05  eta: 4:16:39  time: 0.0046  data_time: 0.0002  memory: 54  loss: 2.2990
+2024/02/19 19:09:57 - mmengine - INFO - Epoch(train)    [2][2800/3125]  lr: 1.0000e-05  eta: 4:16:41  time: 0.0053  data_time: 0.0002  memory: 54  loss: 2.2987
+2024/02/19 19:09:58 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:09:58 - mmengine - INFO - Epoch(train)    [2][2900/3125]  lr: 1.0000e-05  eta: 4:16:40  time: 0.0049  data_time: 0.0002  memory: 54  loss: 2.2977
+2024/02/19 19:09:58 - mmengine - INFO - Epoch(train)    [2][3000/3125]  lr: 1.0000e-05  eta: 4:16:38  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.2979
+2024/02/19 19:09:59 - mmengine - INFO - Epoch(train)    [2][3100/3125]  lr: 1.0000e-05  eta: 4:16:05  time: 0.0039  data_time: 0.0001  memory: 54  loss: 2.2978
+2024/02/19 19:09:59 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:09:59 - mmengine - INFO - Saving checkpoint at 2 epochs
+2024/02/19 19:09:59 - mmengine - INFO - Epoch(val)    [2][100/625]    eta: 0:00:01  time: 0.0020  data_time: 0.0001  memory: 54  
+2024/02/19 19:10:00 - mmengine - INFO - Epoch(val)    [2][200/625]    eta: 0:00:00  time: 0.0020  data_time: 0.0004  memory: 26  
+2024/02/19 19:10:00 - mmengine - INFO - Epoch(val)    [2][300/625]    eta: 0:00:00  time: 0.0021  data_time: 0.0001  memory: 26  
+2024/02/19 19:10:00 - mmengine - INFO - Epoch(val)    [2][400/625]    eta: 0:00:00  time: 0.0025  data_time: 0.0007  memory: 26  
+2024/02/19 19:10:00 - mmengine - INFO - Epoch(val)    [2][500/625]    eta: 0:00:00  time: 0.0022  data_time: 0.0005  memory: 26  
+2024/02/19 19:10:00 - mmengine - INFO - Epoch(val)    [2][600/625]    eta: 0:00:00  time: 0.0021  data_time: 0.0002  memory: 26  
+2024/02/19 19:10:00 - mmengine - INFO - Epoch(val) [2][625/625]    accuracy/top1: 14.4600  data_time: 0.0003  time: 0.0022
+2024/02/19 19:10:01 - mmengine - INFO - Epoch(train)    [3][ 100/3125]  lr: 1.0000e-05  eta: 4:15:59  time: 0.0046  data_time: 0.0002  memory: 54  loss: 2.2995
+2024/02/19 19:10:01 - mmengine - INFO - Epoch(train)    [3][ 200/3125]  lr: 1.0000e-05  eta: 4:15:59  time: 0.0052  data_time: 0.0002  memory: 54  loss: 2.3019
+2024/02/19 19:10:02 - mmengine - INFO - Epoch(train)    [3][ 300/3125]  lr: 1.0000e-05  eta: 4:16:20  time: 0.0061  data_time: 0.0013  memory: 54  loss: 2.3016
+2024/02/19 19:10:03 - mmengine - INFO - Epoch(train)    [3][ 400/3125]  lr: 1.0000e-05  eta: 4:16:27  time: 0.0051  data_time: 0.0006  memory: 54  loss: 2.2986
+2024/02/19 19:10:03 - mmengine - INFO - Epoch(train)    [3][ 500/3125]  lr: 1.0000e-05  eta: 4:16:37  time: 0.0041  data_time: 0.0003  memory: 54  loss: 2.3001
+2024/02/19 19:10:03 - mmengine - INFO - Epoch(train)    [3][ 600/3125]  lr: 1.0000e-05  eta: 4:16:06  time: 0.0046  data_time: 0.0002  memory: 54  loss: 2.3009
+2024/02/19 19:10:04 - mmengine - INFO - Epoch(train)    [3][ 700/3125]  lr: 1.0000e-05  eta: 4:16:28  time: 0.0054  data_time: 0.0003  memory: 54  loss: 2.2991
+2024/02/19 19:10:04 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:10:05 - mmengine - INFO - Epoch(train)    [3][ 800/3125]  lr: 1.0000e-05  eta: 4:16:31  time: 0.0042  data_time: 0.0002  memory: 54  loss: 2.2998
+2024/02/19 19:10:05 - mmengine - INFO - Epoch(train)    [3][ 900/3125]  lr: 1.0000e-05  eta: 4:16:26  time: 0.0061  data_time: 0.0016  memory: 54  loss: 2.3008
+2024/02/19 19:10:06 - mmengine - INFO - Epoch(train)    [3][1000/3125]  lr: 1.0000e-05  eta: 4:17:44  time: 0.0076  data_time: 0.0033  memory: 54  loss: 2.2987
+2024/02/19 19:10:06 - mmengine - INFO - Epoch(train)    [3][1100/3125]  lr: 1.0000e-05  eta: 4:19:05  time: 0.0073  data_time: 0.0027  memory: 54  loss: 2.2989
+2024/02/19 19:10:07 - mmengine - INFO - Epoch(train)    [3][1200/3125]  lr: 1.0000e-05  eta: 4:20:27  time: 0.0061  data_time: 0.0016  memory: 54  loss: 2.3009
+2024/02/19 19:10:08 - mmengine - INFO - Epoch(train)    [3][1300/3125]  lr: 1.0000e-05  eta: 4:21:46  time: 0.0069  data_time: 0.0026  memory: 54  loss: 2.2997
+2024/02/19 19:10:08 - mmengine - INFO - Epoch(train)    [3][1400/3125]  lr: 1.0000e-05  eta: 4:22:48  time: 0.0068  data_time: 0.0024  memory: 54  loss: 2.2991
+2024/02/19 19:10:09 - mmengine - INFO - Epoch(train)    [3][1500/3125]  lr: 1.0000e-05  eta: 4:24:00  time: 0.0074  data_time: 0.0029  memory: 54  loss: 2.3015
+2024/02/19 19:10:10 - mmengine - INFO - Epoch(train)    [3][1600/3125]  lr: 1.0000e-05  eta: 4:25:12  time: 0.0076  data_time: 0.0031  memory: 54  loss: 2.2989
+2024/02/19 19:10:11 - mmengine - INFO - Epoch(train)    [3][1700/3125]  lr: 1.0000e-05  eta: 4:26:13  time: 0.0068  data_time: 0.0022  memory: 54  loss: 2.3002
+2024/02/19 19:10:11 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:10:11 - mmengine - INFO - Epoch(train)    [3][1800/3125]  lr: 1.0000e-05  eta: 4:27:16  time: 0.0069  data_time: 0.0032  memory: 54  loss: 2.3018
+2024/02/19 19:10:12 - mmengine - INFO - Epoch(train)    [3][1900/3125]  lr: 1.0000e-05  eta: 4:28:13  time: 0.0066  data_time: 0.0029  memory: 54  loss: 2.2998
+2024/02/19 19:10:12 - mmengine - INFO - Epoch(train)    [3][2000/3125]  lr: 1.0000e-05  eta: 4:29:01  time: 0.0048  data_time: 0.0010  memory: 54  loss: 2.2981
+2024/02/19 19:10:13 - mmengine - INFO - Epoch(train)    [3][2100/3125]  lr: 1.0000e-05  eta: 4:29:56  time: 0.0074  data_time: 0.0036  memory: 54  loss: 2.2986
+2024/02/19 19:10:14 - mmengine - INFO - Epoch(train)    [3][2200/3125]  lr: 1.0000e-05  eta: 4:30:47  time: 0.0061  data_time: 0.0024  memory: 54  loss: 2.2989
+2024/02/19 19:10:14 - mmengine - INFO - Epoch(train)    [3][2300/3125]  lr: 1.0000e-05  eta: 4:31:41  time: 0.0074  data_time: 0.0038  memory: 54  loss: 2.3002
+2024/02/19 19:10:15 - mmengine - INFO - Epoch(train)    [3][2400/3125]  lr: 1.0000e-05  eta: 4:32:41  time: 0.0059  data_time: 0.0021  memory: 54  loss: 2.2994
+2024/02/19 19:10:16 - mmengine - INFO - Epoch(train)    [3][2500/3125]  lr: 1.0000e-05  eta: 4:33:35  time: 0.0073  data_time: 0.0033  memory: 54  loss: 2.3001
+2024/02/19 19:10:17 - mmengine - INFO - Epoch(train)    [3][2600/3125]  lr: 1.0000e-05  eta: 4:34:19  time: 0.0059  data_time: 0.0015  memory: 54  loss: 2.2975
+2024/02/19 19:10:17 - mmengine - INFO - Epoch(train)    [3][2700/3125]  lr: 1.0000e-05  eta: 4:35:17  time: 0.0078  data_time: 0.0041  memory: 54  loss: 2.2996
+2024/02/19 19:10:18 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:10:18 - mmengine - INFO - Epoch(train)    [3][2800/3125]  lr: 1.0000e-05  eta: 4:36:03  time: 0.0054  data_time: 0.0017  memory: 54  loss: 2.3000
+2024/02/19 19:10:19 - mmengine - INFO - Epoch(train)    [3][2900/3125]  lr: 1.0000e-05  eta: 4:36:51  time: 0.0080  data_time: 0.0041  memory: 54  loss: 2.2978
+2024/02/19 19:10:19 - mmengine - INFO - Epoch(train)    [3][3000/3125]  lr: 1.0000e-05  eta: 4:37:40  time: 0.0070  data_time: 0.0022  memory: 54  loss: 2.2986
+2024/02/19 19:10:20 - mmengine - INFO - Epoch(train)    [3][3100/3125]  lr: 1.0000e-05  eta: 4:38:18  time: 0.0064  data_time: 0.0017  memory: 54  loss: 2.2981
+2024/02/19 19:10:20 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:10:20 - mmengine - INFO - Saving checkpoint at 3 epochs
+2024/02/19 19:10:21 - mmengine - INFO - Epoch(val)    [3][100/625]    eta: 0:00:01  time: 0.0050  data_time: 0.0022  memory: 54  
+2024/02/19 19:10:21 - mmengine - INFO - Epoch(val)    [3][200/625]    eta: 0:00:01  time: 0.0039  data_time: 0.0011  memory: 26  
+2024/02/19 19:10:22 - mmengine - INFO - Epoch(val)    [3][300/625]    eta: 0:00:01  time: 0.0053  data_time: 0.0029  memory: 26  
+2024/02/19 19:10:22 - mmengine - INFO - Epoch(val)    [3][400/625]    eta: 0:00:00  time: 0.0037  data_time: 0.0016  memory: 26  
+2024/02/19 19:10:22 - mmengine - INFO - Epoch(val)    [3][500/625]    eta: 0:00:00  time: 0.0040  data_time: 0.0019  memory: 26  
+2024/02/19 19:10:23 - mmengine - INFO - Epoch(val)    [3][600/625]    eta: 0:00:00  time: 0.0031  data_time: 0.0001  memory: 26  
+2024/02/19 19:10:23 - mmengine - INFO - Epoch(val) [3][625/625]    accuracy/top1: 15.6000  data_time: 0.0011  time: 0.0037
+2024/02/19 19:10:23 - mmengine - INFO - Epoch(train)    [4][ 100/3125]  lr: 1.0000e-05  eta: 4:39:27  time: 0.0063  data_time: 0.0019  memory: 54  loss: 2.2987
+2024/02/19 19:10:24 - mmengine - INFO - Epoch(train)    [4][ 200/3125]  lr: 1.0000e-05  eta: 4:40:29  time: 0.0084  data_time: 0.0040  memory: 54  loss: 2.2999
+2024/02/19 19:10:25 - mmengine - INFO - Epoch(train)    [4][ 300/3125]  lr: 1.0000e-05  eta: 4:41:07  time: 0.0074  data_time: 0.0028  memory: 54  loss: 2.2962
+2024/02/19 19:10:26 - mmengine - INFO - Epoch(train)    [4][ 400/3125]  lr: 1.0000e-05  eta: 4:41:58  time: 0.0068  data_time: 0.0022  memory: 54  loss: 2.2972
+2024/02/19 19:10:26 - mmengine - INFO - Epoch(train)    [4][ 500/3125]  lr: 1.0000e-05  eta: 4:42:36  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.2965
+2024/02/19 19:10:27 - mmengine - INFO - Epoch(train)    [4][ 600/3125]  lr: 1.0000e-05  eta: 4:42:35  time: 0.0054  data_time: 0.0008  memory: 54  loss: 2.2967
+2024/02/19 19:10:27 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:10:27 - mmengine - INFO - Epoch(train)    [4][ 700/3125]  lr: 1.0000e-05  eta: 4:43:13  time: 0.0072  data_time: 0.0025  memory: 54  loss: 2.2988
+2024/02/19 19:10:28 - mmengine - INFO - Epoch(train)    [4][ 800/3125]  lr: 1.0000e-05  eta: 4:43:42  time: 0.0060  data_time: 0.0016  memory: 54  loss: 2.2977
+2024/02/19 19:10:29 - mmengine - INFO - Epoch(train)    [4][ 900/3125]  lr: 1.0000e-05  eta: 4:43:48  time: 0.0076  data_time: 0.0029  memory: 54  loss: 2.2956
+2024/02/19 19:10:29 - mmengine - INFO - Epoch(train)    [4][1000/3125]  lr: 1.0000e-05  eta: 4:44:17  time: 0.0068  data_time: 0.0022  memory: 54  loss: 2.2971
+2024/02/19 19:10:30 - mmengine - INFO - Epoch(train)    [4][1100/3125]  lr: 1.0000e-05  eta: 4:44:47  time: 0.0071  data_time: 0.0025  memory: 54  loss: 2.2984
+2024/02/19 19:10:31 - mmengine - INFO - Epoch(train)    [4][1200/3125]  lr: 1.0000e-05  eta: 4:45:18  time: 0.0070  data_time: 0.0023  memory: 54  loss: 2.2955
+2024/02/19 19:10:31 - mmengine - INFO - Epoch(train)    [4][1300/3125]  lr: 1.0000e-05  eta: 4:45:47  time: 0.0077  data_time: 0.0029  memory: 54  loss: 2.2979
+2024/02/19 19:10:32 - mmengine - INFO - Epoch(train)    [4][1400/3125]  lr: 1.0000e-05  eta: 4:46:19  time: 0.0054  data_time: 0.0006  memory: 54  loss: 2.2983
+2024/02/19 19:10:33 - mmengine - INFO - Epoch(train)    [4][1500/3125]  lr: 1.0000e-05  eta: 4:47:02  time: 0.0081  data_time: 0.0034  memory: 54  loss: 2.2987
+2024/02/19 19:10:33 - mmengine - INFO - Epoch(train)    [4][1600/3125]  lr: 1.0000e-05  eta: 4:47:17  time: 0.0051  data_time: 0.0003  memory: 54  loss: 2.2965
+2024/02/19 19:10:33 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:10:34 - mmengine - INFO - Epoch(train)    [4][1700/3125]  lr: 1.0000e-05  eta: 4:47:54  time: 0.0070  data_time: 0.0023  memory: 54  loss: 2.3007
+2024/02/19 19:10:35 - mmengine - INFO - Epoch(train)    [4][1800/3125]  lr: 1.0000e-05  eta: 4:48:45  time: 0.0075  data_time: 0.0026  memory: 54  loss: 2.2989
+2024/02/19 19:10:35 - mmengine - INFO - Epoch(train)    [4][1900/3125]  lr: 1.0000e-05  eta: 4:49:40  time: 0.0092  data_time: 0.0044  memory: 54  loss: 2.2989
+2024/02/19 19:10:36 - mmengine - INFO - Epoch(train)    [4][2000/3125]  lr: 1.0000e-05  eta: 4:49:46  time: 0.0070  data_time: 0.0027  memory: 54  loss: 2.2954
+2024/02/19 19:10:37 - mmengine - INFO - Epoch(train)    [4][2100/3125]  lr: 1.0000e-05  eta: 4:50:17  time: 0.0056  data_time: 0.0013  memory: 54  loss: 2.3013
+2024/02/19 19:10:37 - mmengine - INFO - Epoch(train)    [4][2200/3125]  lr: 1.0000e-05  eta: 4:50:48  time: 0.0079  data_time: 0.0035  memory: 54  loss: 2.2981
+2024/02/19 19:10:38 - mmengine - INFO - Epoch(train)    [4][2300/3125]  lr: 1.0000e-05  eta: 4:51:14  time: 0.0062  data_time: 0.0018  memory: 54  loss: 2.3003
+2024/02/19 19:10:39 - mmengine - INFO - Epoch(train)    [4][2400/3125]  lr: 1.0000e-05  eta: 4:51:55  time: 0.0070  data_time: 0.0024  memory: 54  loss: 2.2993
+2024/02/19 19:10:39 - mmengine - INFO - Epoch(train)    [4][2500/3125]  lr: 1.0000e-05  eta: 4:52:19  time: 0.0065  data_time: 0.0021  memory: 54  loss: 2.2964
+2024/02/19 19:10:40 - mmengine - INFO - Epoch(train)    [4][2600/3125]  lr: 1.0000e-05  eta: 4:52:44  time: 0.0057  data_time: 0.0016  memory: 54  loss: 2.2983
+2024/02/19 19:10:40 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:10:41 - mmengine - INFO - Epoch(train)    [4][2700/3125]  lr: 1.0000e-05  eta: 4:53:07  time: 0.0055  data_time: 0.0012  memory: 54  loss: 2.2960
+2024/02/19 19:10:41 - mmengine - INFO - Epoch(train)    [4][2800/3125]  lr: 1.0000e-05  eta: 4:53:22  time: 0.0078  data_time: 0.0035  memory: 54  loss: 2.2985
+2024/02/19 19:10:42 - mmengine - INFO - Epoch(train)    [4][2900/3125]  lr: 1.0000e-05  eta: 4:53:47  time: 0.0059  data_time: 0.0017  memory: 54  loss: 2.2969
+2024/02/19 19:10:43 - mmengine - INFO - Epoch(train)    [4][3000/3125]  lr: 1.0000e-05  eta: 4:54:12  time: 0.0067  data_time: 0.0022  memory: 54  loss: 2.2980
+2024/02/19 19:10:43 - mmengine - INFO - Epoch(train)    [4][3100/3125]  lr: 1.0000e-05  eta: 4:54:38  time: 0.0075  data_time: 0.0029  memory: 54  loss: 2.2979
+2024/02/19 19:10:44 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:10:44 - mmengine - INFO - Saving checkpoint at 4 epochs
+2024/02/19 19:10:44 - mmengine - INFO - Epoch(val)    [4][100/625]    eta: 0:00:01  time: 0.0027  data_time: 0.0001  memory: 54  
+2024/02/19 19:10:44 - mmengine - INFO - Epoch(val)    [4][200/625]    eta: 0:00:01  time: 0.0035  data_time: 0.0006  memory: 26  
+2024/02/19 19:10:45 - mmengine - INFO - Epoch(val)    [4][300/625]    eta: 0:00:01  time: 0.0038  data_time: 0.0019  memory: 26  
+2024/02/19 19:10:45 - mmengine - INFO - Epoch(val)    [4][400/625]    eta: 0:00:00  time: 0.0037  data_time: 0.0009  memory: 26  
+2024/02/19 19:10:45 - mmengine - INFO - Epoch(val)    [4][500/625]    eta: 0:00:00  time: 0.0029  data_time: 0.0011  memory: 26  
+2024/02/19 19:10:46 - mmengine - INFO - Epoch(val)    [4][600/625]    eta: 0:00:00  time: 0.0025  data_time: 0.0001  memory: 26  
+2024/02/19 19:10:46 - mmengine - INFO - Epoch(val) [4][625/625]    accuracy/top1: 16.3500  data_time: 0.0009  time: 0.0031
+2024/02/19 19:10:47 - mmengine - INFO - Epoch(train)    [5][ 100/3125]  lr: 1.0000e-05  eta: 4:55:02  time: 0.0057  data_time: 0.0012  memory: 54  loss: 2.2989
+2024/02/19 19:10:47 - mmengine - INFO - Epoch(train)    [5][ 200/3125]  lr: 1.0000e-05  eta: 4:55:24  time: 0.0073  data_time: 0.0029  memory: 54  loss: 2.2982
+2024/02/19 19:10:48 - mmengine - INFO - Epoch(train)    [5][ 300/3125]  lr: 1.0000e-05  eta: 4:55:46  time: 0.0069  data_time: 0.0025  memory: 54  loss: 2.3017
+2024/02/19 19:10:49 - mmengine - INFO - Epoch(train)    [5][ 400/3125]  lr: 1.0000e-05  eta: 4:56:16  time: 0.0077  data_time: 0.0032  memory: 54  loss: 2.2974
+2024/02/19 19:10:49 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:10:49 - mmengine - INFO - Epoch(train)    [5][ 500/3125]  lr: 1.0000e-05  eta: 4:56:37  time: 0.0067  data_time: 0.0024  memory: 54  loss: 2.2993
+2024/02/19 19:10:50 - mmengine - INFO - Epoch(train)    [5][ 600/3125]  lr: 1.0000e-05  eta: 4:56:24  time: 0.0046  data_time: 0.0003  memory: 54  loss: 2.2988
+2024/02/19 19:10:50 - mmengine - INFO - Epoch(train)    [5][ 700/3125]  lr: 1.0000e-05  eta: 4:56:36  time: 0.0051  data_time: 0.0007  memory: 54  loss: 2.2948
+2024/02/19 19:10:51 - mmengine - INFO - Epoch(train)    [5][ 800/3125]  lr: 1.0000e-05  eta: 4:56:56  time: 0.0072  data_time: 0.0028  memory: 54  loss: 2.2982
+2024/02/19 19:10:52 - mmengine - INFO - Epoch(train)    [5][ 900/3125]  lr: 1.0000e-05  eta: 4:57:05  time: 0.0060  data_time: 0.0017  memory: 54  loss: 2.2977
+2024/02/19 19:10:52 - mmengine - INFO - Epoch(train)    [5][1000/3125]  lr: 1.0000e-05  eta: 4:57:23  time: 0.0047  data_time: 0.0003  memory: 54  loss: 2.3014
+2024/02/19 19:10:53 - mmengine - INFO - Epoch(train)    [5][1100/3125]  lr: 1.0000e-05  eta: 4:57:14  time: 0.0064  data_time: 0.0017  memory: 54  loss: 2.2976
+2024/02/19 19:10:54 - mmengine - INFO - Epoch(train)    [5][1200/3125]  lr: 1.0000e-05  eta: 4:57:34  time: 0.0079  data_time: 0.0034  memory: 54  loss: 2.2970
+2024/02/19 19:10:54 - mmengine - INFO - Epoch(train)    [5][1300/3125]  lr: 1.0000e-05  eta: 4:57:52  time: 0.0048  data_time: 0.0003  memory: 54  loss: 2.2966
+2024/02/19 19:10:55 - mmengine - INFO - Epoch(train)    [5][1400/3125]  lr: 1.0000e-05  eta: 4:58:03  time: 0.0069  data_time: 0.0025  memory: 54  loss: 2.2945
+2024/02/19 19:10:55 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:10:55 - mmengine - INFO - Epoch(train)    [5][1500/3125]  lr: 1.0000e-05  eta: 4:58:19  time: 0.0066  data_time: 0.0020  memory: 54  loss: 2.2983
+2024/02/19 19:10:56 - mmengine - INFO - Epoch(train)    [5][1600/3125]  lr: 1.0000e-05  eta: 4:58:43  time: 0.0066  data_time: 0.0020  memory: 54  loss: 2.2989
+2024/02/19 19:10:57 - mmengine - INFO - Epoch(train)    [5][1700/3125]  lr: 1.0000e-05  eta: 4:59:05  time: 0.0058  data_time: 0.0019  memory: 54  loss: 2.2975
+2024/02/19 19:10:57 - mmengine - INFO - Epoch(train)    [5][1800/3125]  lr: 1.0000e-05  eta: 4:59:21  time: 0.0073  data_time: 0.0028  memory: 54  loss: 2.2956
+2024/02/19 19:10:58 - mmengine - INFO - Epoch(train)    [5][1900/3125]  lr: 1.0000e-05  eta: 4:59:41  time: 0.0058  data_time: 0.0014  memory: 54  loss: 2.2927
+2024/02/19 19:10:59 - mmengine - INFO - Epoch(train)    [5][2000/3125]  lr: 1.0000e-05  eta: 5:00:04  time: 0.0078  data_time: 0.0031  memory: 54  loss: 2.2981
+2024/02/19 19:11:00 - mmengine - INFO - Epoch(train)    [5][2100/3125]  lr: 1.0000e-05  eta: 5:00:29  time: 0.0059  data_time: 0.0013  memory: 54  loss: 2.2961
+2024/02/19 19:11:00 - mmengine - INFO - Epoch(train)    [5][2200/3125]  lr: 1.0000e-05  eta: 5:00:56  time: 0.0067  data_time: 0.0019  memory: 54  loss: 2.2956
+2024/02/19 19:11:01 - mmengine - INFO - Epoch(train)    [5][2300/3125]  lr: 1.0000e-05  eta: 5:01:05  time: 0.0052  data_time: 0.0006  memory: 54  loss: 2.2960
+2024/02/19 19:11:02 - mmengine - INFO - Epoch(train)    [5][2400/3125]  lr: 1.0000e-05  eta: 5:01:25  time: 0.0066  data_time: 0.0018  memory: 54  loss: 2.2918
+2024/02/19 19:11:02 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:11:02 - mmengine - INFO - Epoch(train)    [5][2500/3125]  lr: 1.0000e-05  eta: 5:01:36  time: 0.0066  data_time: 0.0019  memory: 54  loss: 2.2946
+2024/02/19 19:11:03 - mmengine - INFO - Epoch(train)    [5][2600/3125]  lr: 1.0000e-05  eta: 5:01:50  time: 0.0066  data_time: 0.0026  memory: 54  loss: 2.2945
+2024/02/19 19:11:04 - mmengine - INFO - Epoch(train)    [5][2700/3125]  lr: 1.0000e-05  eta: 5:02:07  time: 0.0071  data_time: 0.0033  memory: 54  loss: 2.2972
+2024/02/19 19:11:04 - mmengine - INFO - Epoch(train)    [5][2800/3125]  lr: 1.0000e-05  eta: 5:02:22  time: 0.0065  data_time: 0.0028  memory: 54  loss: 2.2946
+2024/02/19 19:11:05 - mmengine - INFO - Epoch(train)    [5][2900/3125]  lr: 1.0000e-05  eta: 5:02:41  time: 0.0067  data_time: 0.0030  memory: 54  loss: 2.2975
+2024/02/19 19:11:06 - mmengine - INFO - Epoch(train)    [5][3000/3125]  lr: 1.0000e-05  eta: 5:02:51  time: 0.0052  data_time: 0.0015  memory: 54  loss: 2.2964
+2024/02/19 19:11:06 - mmengine - INFO - Epoch(train)    [5][3100/3125]  lr: 1.0000e-05  eta: 5:03:02  time: 0.0048  data_time: 0.0002  memory: 54  loss: 2.2963
+2024/02/19 19:11:06 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:11:06 - mmengine - INFO - Saving checkpoint at 5 epochs
+2024/02/19 19:11:07 - mmengine - INFO - Epoch(val)    [5][100/625]    eta: 0:00:01  time: 0.0030  data_time: 0.0003  memory: 54  
+2024/02/19 19:11:08 - mmengine - INFO - Epoch(val)    [5][200/625]    eta: 0:00:01  time: 0.0037  data_time: 0.0010  memory: 26  
+2024/02/19 19:11:08 - mmengine - INFO - Epoch(val)    [5][300/625]    eta: 0:00:01  time: 0.0033  data_time: 0.0005  memory: 26  
+2024/02/19 19:11:08 - mmengine - INFO - Epoch(val)    [5][400/625]    eta: 0:00:00  time: 0.0034  data_time: 0.0006  memory: 26  
+2024/02/19 19:11:09 - mmengine - INFO - Epoch(val)    [5][500/625]    eta: 0:00:00  time: 0.0030  data_time: 0.0002  memory: 26  
+2024/02/19 19:11:09 - mmengine - INFO - Epoch(val)    [5][600/625]    eta: 0:00:00  time: 0.0036  data_time: 0.0008  memory: 26  
+2024/02/19 19:11:09 - mmengine - INFO - Epoch(val) [5][625/625]    accuracy/top1: 17.3500  data_time: 0.0011  time: 0.0038
+2024/02/19 19:11:10 - mmengine - INFO - Epoch(train)    [6][ 100/3125]  lr: 1.0000e-05  eta: 5:03:04  time: 0.0052  data_time: 0.0003  memory: 54  loss: 2.2974
+2024/02/19 19:11:10 - mmengine - INFO - Epoch(train)    [6][ 200/3125]  lr: 1.0000e-05  eta: 5:03:34  time: 0.0063  data_time: 0.0017  memory: 54  loss: 2.2973
+2024/02/19 19:11:11 - mmengine - INFO - Epoch(train)    [6][ 300/3125]  lr: 1.0000e-05  eta: 5:03:56  time: 0.0093  data_time: 0.0046  memory: 54  loss: 2.2947
+2024/02/19 19:11:12 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:11:12 - mmengine - INFO - Epoch(train)    [6][ 400/3125]  lr: 1.0000e-05  eta: 5:04:25  time: 0.0089  data_time: 0.0042  memory: 54  loss: 2.2981
+2024/02/19 19:11:12 - mmengine - INFO - Epoch(train)    [6][ 500/3125]  lr: 1.0000e-05  eta: 5:04:24  time: 0.0048  data_time: 0.0003  memory: 54  loss: 2.2944
+2024/02/19 19:11:13 - mmengine - INFO - Epoch(train)    [6][ 600/3125]  lr: 1.0000e-05  eta: 5:04:32  time: 0.0061  data_time: 0.0016  memory: 54  loss: 2.2948
+2024/02/19 19:11:14 - mmengine - INFO - Epoch(train)    [6][ 700/3125]  lr: 1.0000e-05  eta: 5:04:50  time: 0.0070  data_time: 0.0025  memory: 54  loss: 2.2980
+2024/02/19 19:11:14 - mmengine - INFO - Epoch(train)    [6][ 800/3125]  lr: 1.0000e-05  eta: 5:04:57  time: 0.0048  data_time: 0.0003  memory: 54  loss: 2.2963
+2024/02/19 19:11:15 - mmengine - INFO - Epoch(train)    [6][ 900/3125]  lr: 1.0000e-05  eta: 5:05:21  time: 0.0063  data_time: 0.0019  memory: 54  loss: 2.2940
+2024/02/19 19:11:16 - mmengine - INFO - Epoch(train)    [6][1000/3125]  lr: 1.0000e-05  eta: 5:05:44  time: 0.0091  data_time: 0.0048  memory: 54  loss: 2.2984
+2024/02/19 19:11:16 - mmengine - INFO - Epoch(train)    [6][1100/3125]  lr: 1.0000e-05  eta: 5:05:52  time: 0.0048  data_time: 0.0003  memory: 54  loss: 2.2969
+2024/02/19 19:11:17 - mmengine - INFO - Epoch(train)    [6][1200/3125]  lr: 1.0000e-05  eta: 5:05:37  time: 0.0050  data_time: 0.0004  memory: 54  loss: 2.2949
+2024/02/19 19:11:18 - mmengine - INFO - Epoch(train)    [6][1300/3125]  lr: 1.0000e-05  eta: 5:05:54  time: 0.0052  data_time: 0.0007  memory: 54  loss: 2.2947
+2024/02/19 19:11:18 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:11:18 - mmengine - INFO - Epoch(train)    [6][1400/3125]  lr: 1.0000e-05  eta: 5:06:09  time: 0.0067  data_time: 0.0022  memory: 54  loss: 2.2957
+2024/02/19 19:11:19 - mmengine - INFO - Epoch(train)    [6][1500/3125]  lr: 1.0000e-05  eta: 5:06:09  time: 0.0063  data_time: 0.0019  memory: 54  loss: 2.2982
+2024/02/19 19:11:20 - mmengine - INFO - Epoch(train)    [6][1600/3125]  lr: 1.0000e-05  eta: 5:06:21  time: 0.0076  data_time: 0.0030  memory: 54  loss: 2.2927
+2024/02/19 19:11:20 - mmengine - INFO - Epoch(train)    [6][1700/3125]  lr: 1.0000e-05  eta: 5:06:37  time: 0.0065  data_time: 0.0019  memory: 54  loss: 2.2962
+2024/02/19 19:11:21 - mmengine - INFO - Epoch(train)    [6][1800/3125]  lr: 1.0000e-05  eta: 5:06:47  time: 0.0090  data_time: 0.0043  memory: 54  loss: 2.2959
+2024/02/19 19:11:22 - mmengine - INFO - Epoch(train)    [6][1900/3125]  lr: 1.0000e-05  eta: 5:06:59  time: 0.0080  data_time: 0.0030  memory: 54  loss: 2.2910
+2024/02/19 19:11:22 - mmengine - INFO - Epoch(train)    [6][2000/3125]  lr: 1.0000e-05  eta: 5:07:09  time: 0.0082  data_time: 0.0032  memory: 54  loss: 2.2978
+2024/02/19 19:11:23 - mmengine - INFO - Epoch(train)    [6][2100/3125]  lr: 1.0000e-05  eta: 5:07:19  time: 0.0064  data_time: 0.0015  memory: 54  loss: 2.2950
+2024/02/19 19:11:24 - mmengine - INFO - Epoch(train)    [6][2200/3125]  lr: 1.0000e-05  eta: 5:07:40  time: 0.0074  data_time: 0.0025  memory: 54  loss: 2.2910
+2024/02/19 19:11:24 - mmengine - INFO - Epoch(train)    [6][2300/3125]  lr: 1.0000e-05  eta: 5:07:54  time: 0.0088  data_time: 0.0031  memory: 54  loss: 2.2896
+2024/02/19 19:11:25 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:11:25 - mmengine - INFO - Epoch(train)    [6][2400/3125]  lr: 1.0000e-05  eta: 5:08:06  time: 0.0064  data_time: 0.0013  memory: 54  loss: 2.2921
+2024/02/19 19:11:26 - mmengine - INFO - Epoch(train)    [6][2500/3125]  lr: 1.0000e-05  eta: 5:08:20  time: 0.0071  data_time: 0.0015  memory: 54  loss: 2.2963
+2024/02/19 19:11:26 - mmengine - INFO - Epoch(train)    [6][2600/3125]  lr: 1.0000e-05  eta: 5:08:35  time: 0.0078  data_time: 0.0028  memory: 54  loss: 2.2956
+2024/02/19 19:11:27 - mmengine - INFO - Epoch(train)    [6][2700/3125]  lr: 1.0000e-05  eta: 5:08:44  time: 0.0059  data_time: 0.0009  memory: 54  loss: 2.2960
+2024/02/19 19:11:28 - mmengine - INFO - Epoch(train)    [6][2800/3125]  lr: 1.0000e-05  eta: 5:08:54  time: 0.0053  data_time: 0.0003  memory: 54  loss: 2.2997
+2024/02/19 19:11:28 - mmengine - INFO - Epoch(train)    [6][2900/3125]  lr: 1.0000e-05  eta: 5:09:12  time: 0.0077  data_time: 0.0030  memory: 54  loss: 2.2933
+2024/02/19 19:11:29 - mmengine - INFO - Epoch(train)    [6][3000/3125]  lr: 1.0000e-05  eta: 5:09:26  time: 0.0075  data_time: 0.0022  memory: 54  loss: 2.2961
+2024/02/19 19:11:30 - mmengine - INFO - Epoch(train)    [6][3100/3125]  lr: 1.0000e-05  eta: 5:09:39  time: 0.0070  data_time: 0.0021  memory: 54  loss: 2.2971
+2024/02/19 19:11:30 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:11:30 - mmengine - INFO - Saving checkpoint at 6 epochs
+2024/02/19 19:11:31 - mmengine - INFO - Epoch(val)    [6][100/625]    eta: 0:00:01  time: 0.0038  data_time: 0.0008  memory: 54  
+2024/02/19 19:11:31 - mmengine - INFO - Epoch(val)    [6][200/625]    eta: 0:00:01  time: 0.0037  data_time: 0.0019  memory: 26  
+2024/02/19 19:11:31 - mmengine - INFO - Epoch(val)    [6][300/625]    eta: 0:00:01  time: 0.0033  data_time: 0.0014  memory: 26  
+2024/02/19 19:11:32 - mmengine - INFO - Epoch(val)    [6][400/625]    eta: 0:00:00  time: 0.0036  data_time: 0.0012  memory: 26  
+2024/02/19 19:11:32 - mmengine - INFO - Epoch(val)    [6][500/625]    eta: 0:00:00  time: 0.0033  data_time: 0.0007  memory: 26  
+2024/02/19 19:11:32 - mmengine - INFO - Epoch(val)    [6][600/625]    eta: 0:00:00  time: 0.0038  data_time: 0.0009  memory: 26  
+2024/02/19 19:11:33 - mmengine - INFO - Epoch(val) [6][625/625]    accuracy/top1: 17.7000  data_time: 0.0010  time: 0.0034
+2024/02/19 19:11:33 - mmengine - INFO - Epoch(train)    [7][ 100/3125]  lr: 1.0000e-05  eta: 5:10:04  time: 0.0084  data_time: 0.0036  memory: 54  loss: 2.2921
+2024/02/19 19:11:34 - mmengine - INFO - Epoch(train)    [7][ 200/3125]  lr: 1.0000e-05  eta: 5:10:11  time: 0.0077  data_time: 0.0027  memory: 54  loss: 2.2949
+2024/02/19 19:11:34 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:11:35 - mmengine - INFO - Epoch(train)    [7][ 300/3125]  lr: 1.0000e-05  eta: 5:10:26  time: 0.0063  data_time: 0.0015  memory: 54  loss: 2.2953
+2024/02/19 19:11:35 - mmengine - INFO - Epoch(train)    [7][ 400/3125]  lr: 1.0000e-05  eta: 5:10:31  time: 0.0046  data_time: 0.0002  memory: 54  loss: 2.2972
+2024/02/19 19:11:36 - mmengine - INFO - Epoch(train)    [7][ 500/3125]  lr: 1.0000e-05  eta: 5:10:27  time: 0.0060  data_time: 0.0016  memory: 54  loss: 2.2962
+2024/02/19 19:11:37 - mmengine - INFO - Epoch(train)    [7][ 600/3125]  lr: 1.0000e-05  eta: 5:10:33  time: 0.0080  data_time: 0.0032  memory: 54  loss: 2.2897
+2024/02/19 19:11:37 - mmengine - INFO - Epoch(train)    [7][ 700/3125]  lr: 1.0000e-05  eta: 5:10:37  time: 0.0061  data_time: 0.0010  memory: 54  loss: 2.2947
+2024/02/19 19:11:38 - mmengine - INFO - Epoch(train)    [7][ 800/3125]  lr: 1.0000e-05  eta: 5:10:44  time: 0.0063  data_time: 0.0023  memory: 54  loss: 2.2963
+2024/02/19 19:11:38 - mmengine - INFO - Epoch(train)    [7][ 900/3125]  lr: 1.0000e-05  eta: 5:10:50  time: 0.0053  data_time: 0.0014  memory: 54  loss: 2.2942
+2024/02/19 19:11:39 - mmengine - INFO - Epoch(train)    [7][1000/3125]  lr: 1.0000e-05  eta: 5:11:02  time: 0.0068  data_time: 0.0025  memory: 54  loss: 2.2930
+2024/02/19 19:11:40 - mmengine - INFO - Epoch(train)    [7][1100/3125]  lr: 1.0000e-05  eta: 5:11:03  time: 0.0073  data_time: 0.0030  memory: 54  loss: 2.2939
+2024/02/19 19:11:40 - mmengine - INFO - Epoch(train)    [7][1200/3125]  lr: 1.0000e-05  eta: 5:11:06  time: 0.0062  data_time: 0.0025  memory: 54  loss: 2.2925
+2024/02/19 19:11:41 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:11:41 - mmengine - INFO - Epoch(train)    [7][1300/3125]  lr: 1.0000e-05  eta: 5:10:47  time: 0.0043  data_time: 0.0005  memory: 54  loss: 2.2894
+2024/02/19 19:11:41 - mmengine - INFO - Epoch(train)    [7][1400/3125]  lr: 1.0000e-05  eta: 5:10:45  time: 0.0044  data_time: 0.0008  memory: 54  loss: 2.2964
+2024/02/19 19:11:42 - mmengine - INFO - Epoch(train)    [7][1500/3125]  lr: 1.0000e-05  eta: 5:10:50  time: 0.0078  data_time: 0.0033  memory: 54  loss: 2.2933
+2024/02/19 19:11:43 - mmengine - INFO - Epoch(train)    [7][1600/3125]  lr: 1.0000e-05  eta: 5:10:53  time: 0.0086  data_time: 0.0040  memory: 54  loss: 2.2934
+2024/02/19 19:11:43 - mmengine - INFO - Epoch(train)    [7][1700/3125]  lr: 1.0000e-05  eta: 5:11:00  time: 0.0064  data_time: 0.0020  memory: 54  loss: 2.2962
+2024/02/19 19:11:44 - mmengine - INFO - Epoch(train)    [7][1800/3125]  lr: 1.0000e-05  eta: 5:11:08  time: 0.0061  data_time: 0.0016  memory: 54  loss: 2.2924
+2024/02/19 19:11:45 - mmengine - INFO - Epoch(train)    [7][1900/3125]  lr: 1.0000e-05  eta: 5:11:15  time: 0.0056  data_time: 0.0012  memory: 54  loss: 2.2933
+2024/02/19 19:11:45 - mmengine - INFO - Epoch(train)    [7][2000/3125]  lr: 1.0000e-05  eta: 5:11:09  time: 0.0051  data_time: 0.0006  memory: 54  loss: 2.2945
+2024/02/19 19:11:46 - mmengine - INFO - Epoch(train)    [7][2100/3125]  lr: 1.0000e-05  eta: 5:11:16  time: 0.0064  data_time: 0.0024  memory: 54  loss: 2.2922
+2024/02/19 19:11:47 - mmengine - INFO - Epoch(train)    [7][2200/3125]  lr: 1.0000e-05  eta: 5:11:32  time: 0.0050  data_time: 0.0004  memory: 54  loss: 2.2917
+2024/02/19 19:11:47 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:11:47 - mmengine - INFO - Epoch(train)    [7][2300/3125]  lr: 1.0000e-05  eta: 5:11:48  time: 0.0066  data_time: 0.0023  memory: 54  loss: 2.2936
+2024/02/19 19:11:48 - mmengine - INFO - Epoch(train)    [7][2400/3125]  lr: 1.0000e-05  eta: 5:11:53  time: 0.0059  data_time: 0.0011  memory: 54  loss: 2.2915
+2024/02/19 19:11:49 - mmengine - INFO - Epoch(train)    [7][2500/3125]  lr: 1.0000e-05  eta: 5:12:11  time: 0.0075  data_time: 0.0030  memory: 54  loss: 2.2968
+2024/02/19 19:11:49 - mmengine - INFO - Epoch(train)    [7][2600/3125]  lr: 1.0000e-05  eta: 5:12:23  time: 0.0079  data_time: 0.0031  memory: 54  loss: 2.2923
+2024/02/19 19:11:50 - mmengine - INFO - Epoch(train)    [7][2700/3125]  lr: 1.0000e-05  eta: 5:12:32  time: 0.0072  data_time: 0.0026  memory: 54  loss: 2.2927
+2024/02/19 19:11:51 - mmengine - INFO - Epoch(train)    [7][2800/3125]  lr: 1.0000e-05  eta: 5:12:38  time: 0.0078  data_time: 0.0035  memory: 54  loss: 2.2975
+2024/02/19 19:11:51 - mmengine - INFO - Epoch(train)    [7][2900/3125]  lr: 1.0000e-05  eta: 5:12:45  time: 0.0059  data_time: 0.0014  memory: 54  loss: 2.2950
+2024/02/19 19:11:52 - mmengine - INFO - Epoch(train)    [7][3000/3125]  lr: 1.0000e-05  eta: 5:12:50  time: 0.0069  data_time: 0.0022  memory: 54  loss: 2.2922
+2024/02/19 19:11:53 - mmengine - INFO - Epoch(train)    [7][3100/3125]  lr: 1.0000e-05  eta: 5:12:55  time: 0.0052  data_time: 0.0006  memory: 54  loss: 2.2939
+2024/02/19 19:11:53 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:11:53 - mmengine - INFO - Saving checkpoint at 7 epochs
+2024/02/19 19:11:54 - mmengine - INFO - Epoch(val)    [7][100/625]    eta: 0:00:01  time: 0.0033  data_time: 0.0005  memory: 54  
+2024/02/19 19:11:54 - mmengine - INFO - Epoch(val)    [7][200/625]    eta: 0:00:01  time: 0.0032  data_time: 0.0002  memory: 26  
+2024/02/19 19:11:54 - mmengine - INFO - Epoch(val)    [7][300/625]    eta: 0:00:01  time: 0.0027  data_time: 0.0007  memory: 26  
+2024/02/19 19:11:55 - mmengine - INFO - Epoch(val)    [7][400/625]    eta: 0:00:00  time: 0.0031  data_time: 0.0007  memory: 26  
+2024/02/19 19:11:55 - mmengine - INFO - Epoch(val)    [7][500/625]    eta: 0:00:00  time: 0.0043  data_time: 0.0015  memory: 26  
+2024/02/19 19:11:55 - mmengine - INFO - Epoch(val)    [7][600/625]    eta: 0:00:00  time: 0.0034  data_time: 0.0006  memory: 26  
+2024/02/19 19:11:55 - mmengine - INFO - Epoch(val) [7][625/625]    accuracy/top1: 17.6900  data_time: 0.0010  time: 0.0035
+2024/02/19 19:11:56 - mmengine - INFO - Epoch(train)    [8][ 100/3125]  lr: 1.0000e-05  eta: 5:13:08  time: 0.0065  data_time: 0.0017  memory: 54  loss: 2.2952
+2024/02/19 19:11:56 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:11:57 - mmengine - INFO - Epoch(train)    [8][ 200/3125]  lr: 1.0000e-05  eta: 5:13:18  time: 0.0052  data_time: 0.0007  memory: 54  loss: 2.2929
+2024/02/19 19:11:57 - mmengine - INFO - Epoch(train)    [8][ 300/3125]  lr: 1.0000e-05  eta: 5:13:28  time: 0.0066  data_time: 0.0020  memory: 54  loss: 2.2934
+2024/02/19 19:11:58 - mmengine - INFO - Epoch(train)    [8][ 400/3125]  lr: 1.0000e-05  eta: 5:13:12  time: 0.0040  data_time: 0.0002  memory: 54  loss: 2.2948
+2024/02/19 19:11:59 - mmengine - INFO - Epoch(train)    [8][ 500/3125]  lr: 1.0000e-05  eta: 5:13:13  time: 0.0071  data_time: 0.0027  memory: 54  loss: 2.2928
+2024/02/19 19:11:59 - mmengine - INFO - Epoch(train)    [8][ 600/3125]  lr: 1.0000e-05  eta: 5:13:17  time: 0.0060  data_time: 0.0004  memory: 54  loss: 2.2914
+2024/02/19 19:12:00 - mmengine - INFO - Epoch(train)    [8][ 700/3125]  lr: 1.0000e-05  eta: 5:13:21  time: 0.0066  data_time: 0.0021  memory: 54  loss: 2.2936
+2024/02/19 19:12:01 - mmengine - INFO - Epoch(train)    [8][ 800/3125]  lr: 1.0000e-05  eta: 5:13:24  time: 0.0072  data_time: 0.0025  memory: 54  loss: 2.2973
+2024/02/19 19:12:01 - mmengine - INFO - Epoch(train)    [8][ 900/3125]  lr: 1.0000e-05  eta: 5:13:35  time: 0.0069  data_time: 0.0023  memory: 54  loss: 2.2932
+2024/02/19 19:12:02 - mmengine - INFO - Epoch(train)    [8][1000/3125]  lr: 1.0000e-05  eta: 5:13:43  time: 0.0075  data_time: 0.0028  memory: 54  loss: 2.3000
+2024/02/19 19:12:03 - mmengine - INFO - Epoch(train)    [8][1100/3125]  lr: 1.0000e-05  eta: 5:13:52  time: 0.0055  data_time: 0.0009  memory: 54  loss: 2.2900
+2024/02/19 19:12:03 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:12:03 - mmengine - INFO - Epoch(train)    [8][1200/3125]  lr: 1.0000e-05  eta: 5:14:02  time: 0.0069  data_time: 0.0021  memory: 54  loss: 2.2962
+2024/02/19 19:12:04 - mmengine - INFO - Epoch(train)    [8][1300/3125]  lr: 1.0000e-05  eta: 5:14:13  time: 0.0067  data_time: 0.0017  memory: 54  loss: 2.2897
+2024/02/19 19:12:05 - mmengine - INFO - Epoch(train)    [8][1400/3125]  lr: 1.0000e-05  eta: 5:14:15  time: 0.0063  data_time: 0.0016  memory: 54  loss: 2.2931
+2024/02/19 19:12:05 - mmengine - INFO - Epoch(train)    [8][1500/3125]  lr: 1.0000e-05  eta: 5:14:07  time: 0.0073  data_time: 0.0029  memory: 54  loss: 2.2890
+2024/02/19 19:12:06 - mmengine - INFO - Epoch(train)    [8][1600/3125]  lr: 1.0000e-05  eta: 5:14:09  time: 0.0075  data_time: 0.0029  memory: 54  loss: 2.2956
+2024/02/19 19:12:06 - mmengine - INFO - Epoch(train)    [8][1700/3125]  lr: 1.0000e-05  eta: 5:14:09  time: 0.0062  data_time: 0.0018  memory: 54  loss: 2.2947
+2024/02/19 19:12:07 - mmengine - INFO - Epoch(train)    [8][1800/3125]  lr: 1.0000e-05  eta: 5:14:09  time: 0.0067  data_time: 0.0022  memory: 54  loss: 2.2931
+2024/02/19 19:12:08 - mmengine - INFO - Epoch(train)    [8][1900/3125]  lr: 1.0000e-05  eta: 5:14:14  time: 0.0062  data_time: 0.0013  memory: 54  loss: 2.2838
+2024/02/19 19:12:08 - mmengine - INFO - Epoch(train)    [8][2000/3125]  lr: 1.0000e-05  eta: 5:14:20  time: 0.0077  data_time: 0.0032  memory: 54  loss: 2.2894
+2024/02/19 19:12:09 - mmengine - INFO - Epoch(train)    [8][2100/3125]  lr: 1.0000e-05  eta: 5:14:28  time: 0.0071  data_time: 0.0025  memory: 54  loss: 2.2887
+2024/02/19 19:12:09 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:12:10 - mmengine - INFO - Epoch(train)    [8][2200/3125]  lr: 1.0000e-05  eta: 5:14:34  time: 0.0075  data_time: 0.0028  memory: 54  loss: 2.2947
+2024/02/19 19:12:10 - mmengine - INFO - Epoch(train)    [8][2300/3125]  lr: 1.0000e-05  eta: 5:14:38  time: 0.0080  data_time: 0.0031  memory: 54  loss: 2.2916
+2024/02/19 19:12:11 - mmengine - INFO - Epoch(train)    [8][2400/3125]  lr: 1.0000e-05  eta: 5:14:46  time: 0.0077  data_time: 0.0033  memory: 54  loss: 2.2978
+2024/02/19 19:12:12 - mmengine - INFO - Epoch(train)    [8][2500/3125]  lr: 1.0000e-05  eta: 5:14:50  time: 0.0061  data_time: 0.0017  memory: 54  loss: 2.2858
+2024/02/19 19:12:12 - mmengine - INFO - Epoch(train)    [8][2600/3125]  lr: 1.0000e-05  eta: 5:14:56  time: 0.0071  data_time: 0.0030  memory: 54  loss: 2.2922
+2024/02/19 19:12:13 - mmengine - INFO - Epoch(train)    [8][2700/3125]  lr: 1.0000e-05  eta: 5:15:02  time: 0.0075  data_time: 0.0037  memory: 54  loss: 2.2885
+2024/02/19 19:12:14 - mmengine - INFO - Epoch(train)    [8][2800/3125]  lr: 1.0000e-05  eta: 5:15:15  time: 0.0073  data_time: 0.0025  memory: 54  loss: 2.2873
+2024/02/19 19:12:14 - mmengine - INFO - Epoch(train)    [8][2900/3125]  lr: 1.0000e-05  eta: 5:15:22  time: 0.0075  data_time: 0.0029  memory: 54  loss: 2.2942
+2024/02/19 19:12:15 - mmengine - INFO - Epoch(train)    [8][3000/3125]  lr: 1.0000e-05  eta: 5:15:22  time: 0.0083  data_time: 0.0037  memory: 54  loss: 2.2944
+2024/02/19 19:12:16 - mmengine - INFO - Epoch(train)    [8][3100/3125]  lr: 1.0000e-05  eta: 5:15:26  time: 0.0053  data_time: 0.0010  memory: 54  loss: 2.2917
+2024/02/19 19:12:16 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:12:16 - mmengine - INFO - Saving checkpoint at 8 epochs
+2024/02/19 19:12:17 - mmengine - INFO - Epoch(val)    [8][100/625]    eta: 0:00:02  time: 0.0026  data_time: 0.0010  memory: 54  
+2024/02/19 19:12:17 - mmengine - INFO - Epoch(val)    [8][200/625]    eta: 0:00:01  time: 0.0031  data_time: 0.0009  memory: 26  
+2024/02/19 19:12:17 - mmengine - INFO - Epoch(val)    [8][300/625]    eta: 0:00:01  time: 0.0030  data_time: 0.0001  memory: 26  
+2024/02/19 19:12:18 - mmengine - INFO - Epoch(val)    [8][400/625]    eta: 0:00:00  time: 0.0025  data_time: 0.0002  memory: 26  
+2024/02/19 19:12:18 - mmengine - INFO - Epoch(val)    [8][500/625]    eta: 0:00:00  time: 0.0032  data_time: 0.0002  memory: 26  
+2024/02/19 19:12:18 - mmengine - INFO - Epoch(val)    [8][600/625]    eta: 0:00:00  time: 0.0030  data_time: 0.0014  memory: 26  
+2024/02/19 19:12:18 - mmengine - INFO - Epoch(val) [8][625/625]    accuracy/top1: 17.2200  data_time: 0.0010  time: 0.0034
+2024/02/19 19:12:19 - mmengine - INFO - Epoch(train)    [9][ 100/3125]  lr: 1.0000e-05  eta: 5:15:36  time: 0.0059  data_time: 0.0012  memory: 54  loss: 2.2967
+2024/02/19 19:12:20 - mmengine - INFO - Epoch(train)    [9][ 200/3125]  lr: 1.0000e-05  eta: 5:15:40  time: 0.0057  data_time: 0.0009  memory: 54  loss: 2.2888
+2024/02/19 19:12:20 - mmengine - INFO - Epoch(train)    [9][ 300/3125]  lr: 1.0000e-05  eta: 5:15:42  time: 0.0049  data_time: 0.0006  memory: 54  loss: 2.2928
+2024/02/19 19:12:21 - mmengine - INFO - Epoch(train)    [9][ 400/3125]  lr: 1.0000e-05  eta: 5:15:28  time: 0.0056  data_time: 0.0010  memory: 54  loss: 2.2917
+2024/02/19 19:12:21 - mmengine - INFO - Epoch(train)    [9][ 500/3125]  lr: 1.0000e-05  eta: 5:15:29  time: 0.0052  data_time: 0.0003  memory: 54  loss: 2.2873
+2024/02/19 19:12:22 - mmengine - INFO - Epoch(train)    [9][ 600/3125]  lr: 1.0000e-05  eta: 5:15:33  time: 0.0058  data_time: 0.0007  memory: 54  loss: 2.2957
+2024/02/19 19:12:23 - mmengine - INFO - Epoch(train)    [9][ 700/3125]  lr: 1.0000e-05  eta: 5:15:34  time: 0.0061  data_time: 0.0011  memory: 54  loss: 2.2896
+2024/02/19 19:12:23 - mmengine - INFO - Epoch(train)    [9][ 800/3125]  lr: 1.0000e-05  eta: 5:15:29  time: 0.0053  data_time: 0.0003  memory: 54  loss: 2.2907
+2024/02/19 19:12:24 - mmengine - INFO - Epoch(train)    [9][ 900/3125]  lr: 1.0000e-05  eta: 5:15:39  time: 0.0058  data_time: 0.0010  memory: 54  loss: 2.2827
+2024/02/19 19:12:25 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:12:25 - mmengine - INFO - Epoch(train)    [9][1000/3125]  lr: 1.0000e-05  eta: 5:15:53  time: 0.0090  data_time: 0.0046  memory: 54  loss: 2.2952
+2024/02/19 19:12:25 - mmengine - INFO - Epoch(train)    [9][1100/3125]  lr: 1.0000e-05  eta: 5:16:04  time: 0.0064  data_time: 0.0020  memory: 54  loss: 2.3013
+2024/02/19 19:12:26 - mmengine - INFO - Epoch(train)    [9][1200/3125]  lr: 1.0000e-05  eta: 5:16:12  time: 0.0057  data_time: 0.0021  memory: 54  loss: 2.2999
+2024/02/19 19:12:27 - mmengine - INFO - Epoch(train)    [9][1300/3125]  lr: 1.0000e-05  eta: 5:16:17  time: 0.0075  data_time: 0.0028  memory: 54  loss: 2.2885
+2024/02/19 19:12:28 - mmengine - INFO - Epoch(train)    [9][1400/3125]  lr: 1.0000e-05  eta: 5:16:25  time: 0.0068  data_time: 0.0018  memory: 54  loss: 2.2940
+2024/02/19 19:12:28 - mmengine - INFO - Epoch(train)    [9][1500/3125]  lr: 1.0000e-05  eta: 5:16:25  time: 0.0059  data_time: 0.0015  memory: 54  loss: 2.2941
+2024/02/19 19:12:29 - mmengine - INFO - Epoch(train)    [9][1600/3125]  lr: 1.0000e-05  eta: 5:16:24  time: 0.0049  data_time: 0.0003  memory: 54  loss: 2.2897
+2024/02/19 19:12:29 - mmengine - INFO - Epoch(train)    [9][1700/3125]  lr: 1.0000e-05  eta: 5:16:22  time: 0.0077  data_time: 0.0027  memory: 54  loss: 2.2829
+2024/02/19 19:12:30 - mmengine - INFO - Epoch(train)    [9][1800/3125]  lr: 1.0000e-05  eta: 5:16:31  time: 0.0059  data_time: 0.0012  memory: 54  loss: 2.2972
+2024/02/19 19:12:31 - mmengine - INFO - Epoch(train)    [9][1900/3125]  lr: 1.0000e-05  eta: 5:16:34  time: 0.0056  data_time: 0.0006  memory: 54  loss: 2.2891
+2024/02/19 19:12:31 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:12:31 - mmengine - INFO - Epoch(train)    [9][2000/3125]  lr: 1.0000e-05  eta: 5:16:34  time: 0.0068  data_time: 0.0020  memory: 54  loss: 2.2847
+2024/02/19 19:12:32 - mmengine - INFO - Epoch(train)    [9][2100/3125]  lr: 1.0000e-05  eta: 5:16:38  time: 0.0065  data_time: 0.0021  memory: 54  loss: 2.2858
+2024/02/19 19:12:33 - mmengine - INFO - Epoch(train)    [9][2200/3125]  lr: 1.0000e-05  eta: 5:16:40  time: 0.0065  data_time: 0.0020  memory: 54  loss: 2.2832
+2024/02/19 19:12:33 - mmengine - INFO - Epoch(train)    [9][2300/3125]  lr: 1.0000e-05  eta: 5:16:48  time: 0.0074  data_time: 0.0029  memory: 54  loss: 2.2865
+2024/02/19 19:12:34 - mmengine - INFO - Epoch(train)    [9][2400/3125]  lr: 1.0000e-05  eta: 5:16:55  time: 0.0056  data_time: 0.0010  memory: 54  loss: 2.2890
+2024/02/19 19:12:35 - mmengine - INFO - Epoch(train)    [9][2500/3125]  lr: 1.0000e-05  eta: 5:17:02  time: 0.0072  data_time: 0.0026  memory: 54  loss: 2.2829
+2024/02/19 19:12:35 - mmengine - INFO - Epoch(train)    [9][2600/3125]  lr: 1.0000e-05  eta: 5:17:13  time: 0.0060  data_time: 0.0013  memory: 54  loss: 2.2755
+2024/02/19 19:12:36 - mmengine - INFO - Epoch(train)    [9][2700/3125]  lr: 1.0000e-05  eta: 5:17:22  time: 0.0062  data_time: 0.0014  memory: 54  loss: 2.2963
+2024/02/19 19:12:37 - mmengine - INFO - Epoch(train)    [9][2800/3125]  lr: 1.0000e-05  eta: 5:17:22  time: 0.0068  data_time: 0.0032  memory: 54  loss: 2.2940
+2024/02/19 19:12:37 - mmengine - INFO - Epoch(train)    [9][2900/3125]  lr: 1.0000e-05  eta: 5:17:28  time: 0.0058  data_time: 0.0019  memory: 54  loss: 2.2885
+2024/02/19 19:12:38 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:12:38 - mmengine - INFO - Epoch(train)    [9][3000/3125]  lr: 1.0000e-05  eta: 5:17:30  time: 0.0044  data_time: 0.0008  memory: 54  loss: 2.2874
+2024/02/19 19:12:39 - mmengine - INFO - Epoch(train)    [9][3100/3125]  lr: 1.0000e-05  eta: 5:17:36  time: 0.0071  data_time: 0.0025  memory: 54  loss: 2.2916
+2024/02/19 19:12:39 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:12:39 - mmengine - INFO - Saving checkpoint at 9 epochs
+2024/02/19 19:12:40 - mmengine - INFO - Epoch(val)    [9][100/625]    eta: 0:00:01  time: 0.0026  data_time: 0.0001  memory: 54  
+2024/02/19 19:12:40 - mmengine - INFO - Epoch(val)    [9][200/625]    eta: 0:00:01  time: 0.0019  data_time: 0.0002  memory: 26  
+2024/02/19 19:12:40 - mmengine - INFO - Epoch(val)    [9][300/625]    eta: 0:00:01  time: 0.0022  data_time: 0.0001  memory: 26  
+2024/02/19 19:12:41 - mmengine - INFO - Epoch(val)    [9][400/625]    eta: 0:00:00  time: 0.0020  data_time: 0.0004  memory: 26  
+2024/02/19 19:12:41 - mmengine - INFO - Epoch(val)    [9][500/625]    eta: 0:00:00  time: 0.0045  data_time: 0.0020  memory: 26  
+2024/02/19 19:12:41 - mmengine - INFO - Epoch(val)    [9][600/625]    eta: 0:00:00  time: 0.0037  data_time: 0.0009  memory: 26  
+2024/02/19 19:12:41 - mmengine - INFO - Epoch(val) [9][625/625]    accuracy/top1: 17.1600  data_time: 0.0009  time: 0.0034
+2024/02/19 19:12:42 - mmengine - INFO - Epoch(train)   [10][ 100/3125]  lr: 1.0000e-05  eta: 5:17:47  time: 0.0057  data_time: 0.0005  memory: 54  loss: 2.2997
+2024/02/19 19:12:43 - mmengine - INFO - Epoch(train)   [10][ 200/3125]  lr: 1.0000e-05  eta: 5:17:53  time: 0.0067  data_time: 0.0018  memory: 54  loss: 2.2736
+2024/02/19 19:12:43 - mmengine - INFO - Epoch(train)   [10][ 300/3125]  lr: 1.0000e-05  eta: 5:17:48  time: 0.0068  data_time: 0.0018  memory: 54  loss: 2.2879
+2024/02/19 19:12:44 - mmengine - INFO - Epoch(train)   [10][ 400/3125]  lr: 1.0000e-05  eta: 5:17:52  time: 0.0071  data_time: 0.0022  memory: 54  loss: 2.2875
+2024/02/19 19:12:45 - mmengine - INFO - Epoch(train)   [10][ 500/3125]  lr: 1.0000e-05  eta: 5:17:54  time: 0.0072  data_time: 0.0024  memory: 54  loss: 2.2944
+2024/02/19 19:12:45 - mmengine - INFO - Epoch(train)   [10][ 600/3125]  lr: 1.0000e-05  eta: 5:17:56  time: 0.0057  data_time: 0.0008  memory: 54  loss: 2.2830
+2024/02/19 19:12:46 - mmengine - INFO - Epoch(train)   [10][ 700/3125]  lr: 1.0000e-05  eta: 5:18:01  time: 0.0062  data_time: 0.0013  memory: 54  loss: 2.2828
+2024/02/19 19:12:47 - mmengine - INFO - Epoch(train)   [10][ 800/3125]  lr: 1.0000e-05  eta: 5:18:06  time: 0.0066  data_time: 0.0020  memory: 54  loss: 2.2851
+2024/02/19 19:12:47 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:12:47 - mmengine - INFO - Epoch(train)   [10][ 900/3125]  lr: 1.0000e-05  eta: 5:18:14  time: 0.0068  data_time: 0.0023  memory: 54  loss: 2.2782
+2024/02/19 19:12:48 - mmengine - INFO - Epoch(train)   [10][1000/3125]  lr: 1.0000e-05  eta: 5:18:21  time: 0.0067  data_time: 0.0020  memory: 54  loss: 2.2980
+2024/02/19 19:12:49 - mmengine - INFO - Epoch(train)   [10][1100/3125]  lr: 1.0000e-05  eta: 5:18:26  time: 0.0061  data_time: 0.0015  memory: 54  loss: 2.2972
+2024/02/19 19:12:50 - mmengine - INFO - Epoch(train)   [10][1200/3125]  lr: 1.0000e-05  eta: 5:18:34  time: 0.0073  data_time: 0.0026  memory: 54  loss: 2.2888
+2024/02/19 19:12:50 - mmengine - INFO - Epoch(train)   [10][1300/3125]  lr: 1.0000e-05  eta: 5:18:41  time: 0.0067  data_time: 0.0021  memory: 54  loss: 2.2858
+2024/02/19 19:12:51 - mmengine - INFO - Epoch(train)   [10][1400/3125]  lr: 1.0000e-05  eta: 5:18:50  time: 0.0067  data_time: 0.0021  memory: 54  loss: 2.2913
+2024/02/19 19:12:52 - mmengine - INFO - Epoch(train)   [10][1500/3125]  lr: 1.0000e-05  eta: 5:18:56  time: 0.0074  data_time: 0.0027  memory: 54  loss: 2.2840
+2024/02/19 19:12:52 - mmengine - INFO - Epoch(train)   [10][1600/3125]  lr: 1.0000e-05  eta: 5:19:00  time: 0.0067  data_time: 0.0020  memory: 54  loss: 2.2804
+2024/02/19 19:12:53 - mmengine - INFO - Epoch(train)   [10][1700/3125]  lr: 1.0000e-05  eta: 5:19:03  time: 0.0064  data_time: 0.0017  memory: 54  loss: 2.2895
+2024/02/19 19:12:53 - mmengine - INFO - Epoch(train)   [10][1800/3125]  lr: 1.0000e-05  eta: 5:18:53  time: 0.0048  data_time: 0.0005  memory: 54  loss: 2.2861
+2024/02/19 19:12:54 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:12:54 - mmengine - INFO - Epoch(train)   [10][1900/3125]  lr: 1.0000e-05  eta: 5:18:47  time: 0.0055  data_time: 0.0008  memory: 54  loss: 2.2897
+2024/02/19 19:12:55 - mmengine - INFO - Epoch(train)   [10][2000/3125]  lr: 1.0000e-05  eta: 5:18:47  time: 0.0053  data_time: 0.0008  memory: 54  loss: 2.2891
+2024/02/19 19:12:55 - mmengine - INFO - Epoch(train)   [10][2100/3125]  lr: 1.0000e-05  eta: 5:18:51  time: 0.0061  data_time: 0.0015  memory: 54  loss: 2.2854
+2024/02/19 19:12:56 - mmengine - INFO - Epoch(train)   [10][2200/3125]  lr: 1.0000e-05  eta: 5:18:55  time: 0.0071  data_time: 0.0026  memory: 54  loss: 2.2895
+2024/02/19 19:12:57 - mmengine - INFO - Epoch(train)   [10][2300/3125]  lr: 1.0000e-05  eta: 5:18:58  time: 0.0054  data_time: 0.0006  memory: 54  loss: 2.2860
+2024/02/19 19:12:57 - mmengine - INFO - Epoch(train)   [10][2400/3125]  lr: 1.0000e-05  eta: 5:19:00  time: 0.0053  data_time: 0.0005  memory: 54  loss: 2.2845
+2024/02/19 19:12:58 - mmengine - INFO - Epoch(train)   [10][2500/3125]  lr: 1.0000e-05  eta: 5:19:04  time: 0.0061  data_time: 0.0015  memory: 54  loss: 2.2855
+2024/02/19 19:12:59 - mmengine - INFO - Epoch(train)   [10][2600/3125]  lr: 1.0000e-05  eta: 5:19:01  time: 0.0061  data_time: 0.0016  memory: 54  loss: 2.2884
+2024/02/19 19:12:59 - mmengine - INFO - Epoch(train)   [10][2700/3125]  lr: 1.0000e-05  eta: 5:19:09  time: 0.0073  data_time: 0.0025  memory: 54  loss: 2.2834
+2024/02/19 19:13:00 - mmengine - INFO - Epoch(train)   [10][2800/3125]  lr: 1.0000e-05  eta: 5:19:17  time: 0.0083  data_time: 0.0038  memory: 54  loss: 2.2833
+2024/02/19 19:13:01 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:13:01 - mmengine - INFO - Epoch(train)   [10][2900/3125]  lr: 1.0000e-05  eta: 5:19:22  time: 0.0064  data_time: 0.0026  memory: 54  loss: 2.2823
+2024/02/19 19:13:01 - mmengine - INFO - Epoch(train)   [10][3000/3125]  lr: 1.0000e-05  eta: 5:19:24  time: 0.0074  data_time: 0.0039  memory: 54  loss: 2.3128
+2024/02/19 19:13:02 - mmengine - INFO - Epoch(train)   [10][3100/3125]  lr: 1.0000e-05  eta: 5:19:32  time: 0.0080  data_time: 0.0041  memory: 54  loss: 2.2763
+2024/02/19 19:13:02 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:13:02 - mmengine - INFO - Saving checkpoint at 10 epochs
+2024/02/19 19:13:03 - mmengine - INFO - Epoch(val)   [10][100/625]    eta: 0:00:01  time: 0.0030  data_time: 0.0001  memory: 54  
+2024/02/19 19:13:03 - mmengine - INFO - Epoch(val)   [10][200/625]    eta: 0:00:01  time: 0.0035  data_time: 0.0010  memory: 26  
+2024/02/19 19:13:04 - mmengine - INFO - Epoch(val)   [10][300/625]    eta: 0:00:01  time: 0.0027  data_time: 0.0007  memory: 26  
+2024/02/19 19:13:04 - mmengine - INFO - Epoch(val)   [10][400/625]    eta: 0:00:00  time: 0.0039  data_time: 0.0013  memory: 26  
+2024/02/19 19:13:04 - mmengine - INFO - Epoch(val)   [10][500/625]    eta: 0:00:00  time: 0.0031  data_time: 0.0004  memory: 26  
+2024/02/19 19:13:05 - mmengine - INFO - Epoch(val)   [10][600/625]    eta: 0:00:00  time: 0.0035  data_time: 0.0011  memory: 26  
+2024/02/19 19:13:05 - mmengine - INFO - Epoch(val) [10][625/625]    accuracy/top1: 16.8700  data_time: 0.0010  time: 0.0035
+2024/02/19 19:13:05 - mmengine - INFO - Epoch(train)   [11][ 100/3125]  lr: 1.0000e-05  eta: 5:19:39  time: 0.0086  data_time: 0.0040  memory: 54  loss: 2.2848
+2024/02/19 19:13:06 - mmengine - INFO - Epoch(train)   [11][ 200/3125]  lr: 1.0000e-05  eta: 5:19:43  time: 0.0055  data_time: 0.0010  memory: 54  loss: 2.2819
+2024/02/19 19:13:07 - mmengine - INFO - Epoch(train)   [11][ 300/3125]  lr: 1.0000e-05  eta: 5:19:39  time: 0.0092  data_time: 0.0045  memory: 54  loss: 2.2964
+2024/02/19 19:13:07 - mmengine - INFO - Epoch(train)   [11][ 400/3125]  lr: 1.0000e-05  eta: 5:19:40  time: 0.0070  data_time: 0.0025  memory: 54  loss: 2.2987
+2024/02/19 19:13:08 - mmengine - INFO - Epoch(train)   [11][ 500/3125]  lr: 1.0000e-05  eta: 5:19:41  time: 0.0054  data_time: 0.0006  memory: 54  loss: 2.2921
+2024/02/19 19:13:09 - mmengine - INFO - Epoch(train)   [11][ 600/3125]  lr: 1.0000e-05  eta: 5:19:44  time: 0.0061  data_time: 0.0017  memory: 54  loss: 2.2832
+2024/02/19 19:13:09 - mmengine - INFO - Epoch(train)   [11][ 700/3125]  lr: 1.0000e-05  eta: 5:19:44  time: 0.0054  data_time: 0.0010  memory: 54  loss: 2.2888
+2024/02/19 19:13:10 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:13:10 - mmengine - INFO - Epoch(train)   [11][ 800/3125]  lr: 1.0000e-05  eta: 5:19:46  time: 0.0056  data_time: 0.0013  memory: 54  loss: 2.2833
+2024/02/19 19:13:11 - mmengine - INFO - Epoch(train)   [11][ 900/3125]  lr: 1.0000e-05  eta: 5:19:48  time: 0.0055  data_time: 0.0010  memory: 54  loss: 2.2961
+2024/02/19 19:13:11 - mmengine - INFO - Epoch(train)   [11][1000/3125]  lr: 1.0000e-05  eta: 5:19:52  time: 0.0067  data_time: 0.0019  memory: 54  loss: 2.2824
+2024/02/19 19:13:12 - mmengine - INFO - Epoch(train)   [11][1100/3125]  lr: 1.0000e-05  eta: 5:19:54  time: 0.0061  data_time: 0.0016  memory: 54  loss: 2.2871
+2024/02/19 19:13:13 - mmengine - INFO - Epoch(train)   [11][1200/3125]  lr: 1.0000e-05  eta: 5:19:58  time: 0.0066  data_time: 0.0020  memory: 54  loss: 2.2901
+2024/02/19 19:13:13 - mmengine - INFO - Epoch(train)   [11][1300/3125]  lr: 1.0000e-05  eta: 5:20:01  time: 0.0062  data_time: 0.0016  memory: 54  loss: 2.2882
+2024/02/19 19:13:14 - mmengine - INFO - Epoch(train)   [11][1400/3125]  lr: 1.0000e-05  eta: 5:20:05  time: 0.0061  data_time: 0.0014  memory: 54  loss: 2.2836
+2024/02/19 19:13:14 - mmengine - INFO - Epoch(train)   [11][1500/3125]  lr: 1.0000e-05  eta: 5:20:00  time: 0.0070  data_time: 0.0024  memory: 54  loss: 2.2810
+2024/02/19 19:13:15 - mmengine - INFO - Epoch(train)   [11][1600/3125]  lr: 1.0000e-05  eta: 5:20:02  time: 0.0057  data_time: 0.0013  memory: 54  loss: 2.2778
+2024/02/19 19:13:16 - mmengine - INFO - Epoch(train)   [11][1700/3125]  lr: 1.0000e-05  eta: 5:20:03  time: 0.0061  data_time: 0.0017  memory: 54  loss: 2.2855
+2024/02/19 19:13:16 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:13:16 - mmengine - INFO - Epoch(train)   [11][1800/3125]  lr: 1.0000e-05  eta: 5:20:05  time: 0.0060  data_time: 0.0015  memory: 54  loss: 2.2765
+2024/02/19 19:13:17 - mmengine - INFO - Epoch(train)   [11][1900/3125]  lr: 1.0000e-05  eta: 5:20:10  time: 0.0054  data_time: 0.0010  memory: 54  loss: 2.2645
+2024/02/19 19:13:18 - mmengine - INFO - Epoch(train)   [11][2000/3125]  lr: 1.0000e-05  eta: 5:20:02  time: 0.0082  data_time: 0.0036  memory: 54  loss: 2.2841
+2024/02/19 19:13:18 - mmengine - INFO - Epoch(train)   [11][2100/3125]  lr: 1.0000e-05  eta: 5:20:03  time: 0.0062  data_time: 0.0018  memory: 54  loss: 2.2682
+2024/02/19 19:13:19 - mmengine - INFO - Epoch(train)   [11][2200/3125]  lr: 1.0000e-05  eta: 5:20:01  time: 0.0055  data_time: 0.0012  memory: 54  loss: 2.2888
+2024/02/19 19:13:20 - mmengine - INFO - Epoch(train)   [11][2300/3125]  lr: 1.0000e-05  eta: 5:19:59  time: 0.0046  data_time: 0.0003  memory: 54  loss: 2.2980
+2024/02/19 19:13:20 - mmengine - INFO - Epoch(train)   [11][2400/3125]  lr: 1.0000e-05  eta: 5:19:57  time: 0.0048  data_time: 0.0004  memory: 54  loss: 2.2922
+2024/02/19 19:13:21 - mmengine - INFO - Epoch(train)   [11][2500/3125]  lr: 1.0000e-05  eta: 5:20:04  time: 0.0066  data_time: 0.0020  memory: 54  loss: 2.2657
+2024/02/19 19:13:22 - mmengine - INFO - Epoch(train)   [11][2600/3125]  lr: 1.0000e-05  eta: 5:20:08  time: 0.0048  data_time: 0.0003  memory: 54  loss: 2.2825
+2024/02/19 19:13:22 - mmengine - INFO - Epoch(train)   [11][2700/3125]  lr: 1.0000e-05  eta: 5:20:13  time: 0.0083  data_time: 0.0037  memory: 54  loss: 2.2872
+2024/02/19 19:13:23 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:13:23 - mmengine - INFO - Epoch(train)   [11][2800/3125]  lr: 1.0000e-05  eta: 5:20:15  time: 0.0072  data_time: 0.0024  memory: 54  loss: 2.2807
+2024/02/19 19:13:24 - mmengine - INFO - Epoch(train)   [11][2900/3125]  lr: 1.0000e-05  eta: 5:20:18  time: 0.0067  data_time: 0.0019  memory: 54  loss: 2.2800
+2024/02/19 19:13:24 - mmengine - INFO - Epoch(train)   [11][3000/3125]  lr: 1.0000e-05  eta: 5:20:22  time: 0.0060  data_time: 0.0018  memory: 54  loss: 2.2882
+2024/02/19 19:13:25 - mmengine - INFO - Epoch(train)   [11][3100/3125]  lr: 1.0000e-05  eta: 5:20:23  time: 0.0050  data_time: 0.0004  memory: 54  loss: 2.2764
+2024/02/19 19:13:25 - mmengine - INFO - Exp name: pinet_shallow_cifar10_v2_20240219_190919
+2024/02/19 19:13:25 - mmengine - INFO - Saving checkpoint at 11 epochs
+2024/02/19 19:13:26 - mmengine - INFO - Epoch(val)   [11][100/625]    eta: 0:00:01  time: 0.0033  data_time: 0.0002  memory: 54  
+2024/02/19 19:13:26 - mmengine - INFO - Epoch(val)   [11][200/625]    eta: 0:00:01  time: 0.0118  data_time: 0.0091  memory: 26  
+2024/02/19 19:13:26 - mmengine - INFO - Epoch(val)   [11][300/625]    eta: 0:00:01  time: 0.0027  data_time: 0.0005  memory: 26  
+2024/02/19 19:13:27 - mmengine - INFO - Epoch(val)   [11][400/625]    eta: 0:00:00  time: 0.0030  data_time: 0.0008  memory: 26  
+2024/02/19 19:13:27 - mmengine - INFO - Epoch(val)   [11][500/625]    eta: 0:00:00  time: 0.0031  data_time: 0.0005  memory: 26  
+2024/02/19 19:13:27 - mmengine - INFO - Epoch(val)   [11][600/625]    eta: 0:00:00  time: 0.0032  data_time: 0.0005  memory: 26  
+2024/02/19 19:13:27 - mmengine - INFO - Epoch(val) [11][625/625]    accuracy/top1: 16.8300  data_time: 0.0010  time: 0.0034
+2024/02/19 19:13:28 - mmengine - INFO - Epoch(train)   [12][ 100/3125]  lr: 1.0000e-05  eta: 5:20:32  time: 0.0071  data_time: 0.0022  memory: 54  loss: 2.2857
+2024/02/19 19:13:29 - mmengine - INFO - Epoch(train)   [12][ 200/3125]  lr: 1.0000e-05  eta: 5:20:31  time: 0.0050  data_time: 0.0003  memory: 54  loss: 2.2805
+2024/02/19 19:13:29 - mmengine - INFO - Epoch(train)   [12][ 300/3125]  lr: 1.0000e-05  eta: 5:20:30  time: 0.0066  data_time: 0.0020  memory: 54  loss: 2.2781
+2024/02/19 19:13:30 - mmengine - INFO - Epoch(train)   [12][ 400/3125]  lr: 1.0000e-05  eta: 5:20:34  time: 0.0055  data_time: 0.0009  memory: 54  loss: 2.2809
