@@ -62,7 +62,7 @@ from .pinet.pinet_resnet import PiNetResNet, PiNetResNetV1c, PiNetResNetV1d
 from .pinet.pinet_resnet_cifar import PiNetResNet_CIFAR
 from .pinet.pinet_resnet_wout_bn import PiNetResNetWoutBN, PiNetResNetV1cWoutBN, PiNetResNetV1dWoutBN
 from .pinet.pinet_resnet_cifar_wout_bn import PiNetResNet_CIFARWoutBN
-from .pinet.pinet_shallow_cifar import PiNetShallow_CIFAR
+from .pinet.pinet_shallow_cifar import PiNetShallow_CIFAR, PiNetShallowTwoLayer_CIFAR
 
 
 __all__ = [
@@ -140,5 +140,6 @@ __all__ = [
     'PiNetResNetV1cWoutBN',
     'PiNetResNetV1dWoutBN',
     'PiNetResNet_CIFARWoutBN',
-    'PiNetShallow_CIFAR'
+    'PiNetShallow_CIFAR',
+    'PiNetShallowTwoLayer_CIFAR'
 ]

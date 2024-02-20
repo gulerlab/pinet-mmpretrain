@@ -127,7 +127,11 @@ def plot_curve(log_dicts, args):
 
     # set title and show or save
     if args.title is not None:
-        plt.title(args.title)
+        splitted_title = args.title.split('-')
+        main_title = splitted_title[0]
+        plt.suptitle(main_title)
+        if len(splitted_title) == 2:
+            plt.title(splitted_title[-1])
     if args.out is None:
         plt.show()
     else:

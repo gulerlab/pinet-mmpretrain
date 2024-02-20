@@ -27,3 +27,15 @@ class PiNetShallow_CIFAR(nn.Module):
         out = self.piconv_3(out)
         out = self.piconv_4(out)
         return out
+
+@MODELS.register_module()
+class PiNetShallowTwoLayer_CIFAR(nn.Module):
+    def __init__(self) -> None:
+        super(PiNetShallowTwoLayer_CIFAR, self).__init__()
+        self.piconv_1 = PiNetConv2d(3, 64, 4, stride=2, padding=1, bias=False)
+        self.piconv_2 = PiNetConv2d(64, 256, 4, stride=2, padding=1, bias=False)
+
+    def forward(self, x):
+        out = self.piconv_1(x)
+        out = self.piconv_2(out)
+        return out
